@@ -1,9 +1,9 @@
 `timescale 1ns / 1ps
 
-// Symmetric all-pairs shortest-distance ROM for 104 unique stations.
+// Symmetric all-pairs shortest-distance ROM for 128 unique stations.
 module distance_lookup #(
     parameter ROM_FILE = "distance_rom.mem",
-    parameter integer ROM_DEPTH = 5356
+    parameter integer ROM_DEPTH = 8128
 ) (
     input  wire        clk,
     input  wire        query_valid,

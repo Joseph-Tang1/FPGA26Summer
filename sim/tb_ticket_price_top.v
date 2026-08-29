@@ -48,7 +48,7 @@ module tb_ticket_price_top;
     wire [3:0] blink_count_test_active;
     wire blink_count_test_busy;
     wire blink_count_test_done;
-    reg [16:0] expected_distance_rom [0:5355];
+    reg [16:0] expected_distance_rom [0:8127];
     reg [6:0] saved_interchange_id;
     integer ticket_seen;
     integer refund_seen;
@@ -69,7 +69,7 @@ module tb_ticket_price_top;
     integer last_ticket_flash_cycle;
     integer ticket_flash_interval_error;
 
-    assign logical_led_observed = ~led;
+    assign logical_led_observed = led;
 
     ticket_price_top #(
         .DEBOUNCE_CYCLES(2),
@@ -77,7 +77,7 @@ module tb_ticket_price_top;
         .BLINK_HALF_CYCLES(2),
         .EVENT_HOLD_CYCLES(50),
         .VEND_HOLD_CYCLES(100),
-        .LED_ACTIVE_LOW(1),
+        .LED_ACTIVE_LOW(0),
         .DISTANCE_ROM_FILE("distance_rom.mem")
     ) dut (
         .clk(clk),
@@ -118,7 +118,7 @@ module tb_ticket_price_top;
 
     blink_controller #(.HALF_PERIOD_CYCLES(2)) u_blink_count_check (
         .clk(clk),
-        .rst_n(sw4_rst_n),
+        .rst_n(~sw4_rst_n),
         .start(blink_count_test_start),
         .mask(4'b1111),
         .flash_count(blink_count_test_flashes),
@@ -229,6 +229,56 @@ module tb_ticket_price_top;
             end
             if (dut.state !== expected) begin
                 $display("TEST_FAIL: timeout waiting for state %0d, current=%0d", expected, dut.state);
+                $finish;
+            end
+        end
+    endtask
+
+    task check_line_selection_screen;
+        input [2:0] expected_line;
+        integer cycles;
+        reg [31:0] expected_off;
+        begin
+            if (((dut.state !== ORIGIN_LINE) && (dut.state !== DEST_LINE)) ||
+                (dut.selected_line !== expected_line)) begin
+                $display("TEST_FAIL: line selection state/line, expected line %0d, state=%0d line=%0d",
+                         expected_line, dut.state, dut.selected_line);
+                $finish;
+            end
+            cycles = 0;
+            while (!dut.line_blink_on && (cycles < 20)) begin
+                @(posedge clk); #1 cycles = cycles + 1;
+            end
+            if ((dut.display_digits !== 32'h12345fff) ||
+                (logical_led_observed !== 4'b0000)) begin
+                $display("TEST_FAIL: five-line constant display/LED state, digits=%h led=%b",
+                         dut.display_digits, logical_led_observed);
+                $finish;
+            end
+            expected_off = 32'h12345fff;
+            case (expected_line)
+                3'd1: expected_off[31:28] = 4'hf;
+                3'd2: expected_off[27:24] = 4'hf;
+                3'd3: expected_off[23:20] = 4'hf;
+                3'd4: expected_off[19:16] = 4'hf;
+                3'd5: expected_off[15:12] = 4'hf;
+            endcase
+            cycles = 0;
+            while (dut.line_blink_on && (cycles < 20)) begin
+                @(posedge clk); #1 cycles = cycles + 1;
+            end
+            if ((dut.display_digits !== expected_off) ||
+                (logical_led_observed !== 4'b0000)) begin
+                $display("TEST_FAIL: selected line %0d did not blink alone, expected=%h got=%h led=%b",
+                         expected_line, expected_off, dut.display_digits, logical_led_observed);
+                $finish;
+            end
+            cycles = 0;
+            while (!dut.line_blink_on && (cycles < 20)) begin
+                @(posedge clk); #1 cycles = cycles + 1;
+            end
+            if (dut.display_digits !== 32'h12345fff) begin
+                $display("TEST_FAIL: selected line %0d did not continue blinking", expected_line);
                 $finish;
             end
         end
@@ -370,7 +420,7 @@ module tb_ticket_price_top;
     endtask
 
     initial begin
-        sw4_rst_n = 1'b0;
+        sw4_rst_n = 1'b1;
         key1_n = 1'b1;
         key2_n = 1'b1;
         key3_n = 1'b1;
@@ -405,12 +455,12 @@ module tb_ticket_price_top;
         ticket_flash_interval_error = 0;
 
         // The independent Python checker proves the ROM values. This loop
-        // proves the FPGA triangular-address and read timing for all 5460
-        // unordered station pairs, including the 104 same-station cases.
+        // proves the FPGA triangular-address and read timing for all 8256
+        // unordered station pairs, including the 128 same-station cases.
         repeat (3) @(posedge clk);
-        for (exhaustive_index = 0; exhaustive_index < 104; exhaustive_index = exhaustive_index + 1)
+        for (exhaustive_index = 0; exhaustive_index < 128; exhaustive_index = exhaustive_index + 1)
             check_lookup_pair(exhaustive_index[6:0], exhaustive_index[6:0]);
-        for (exhaustive_high = 1; exhaustive_high < 104; exhaustive_high = exhaustive_high + 1)
+        for (exhaustive_high = 1; exhaustive_high < 128; exhaustive_high = exhaustive_high + 1)
             for (exhaustive_low = 0; exhaustive_low < exhaustive_high; exhaustive_low = exhaustive_low + 1)
                 check_lookup_pair(exhaustive_high[6:0], exhaustive_low[6:0]);
 
@@ -433,11 +483,12 @@ module tb_ticket_price_top;
         check_fare(17'd76000, 5'd10);
         check_fare(17'd76001, 5'd11);
 
-        // All four line selectors and all seven interchange aliases are mapped.
+        // All five lines and all interchange aliases are mapped.
         check_line_count(3'd1, 6'd32);
         check_line_count(3'd2, 6'd30);
         check_line_count(3'd3, 6'd31);
         check_line_count(3'd4, 6'd18);
+        check_line_count(3'd5, 6'd30);
         save_station_id(3'd1, 6'd8);   check_same_station_id(3'd3, 6'd10); // 南京站
         save_station_id(3'd1, 6'd13);  check_same_station_id(3'd2, 6'd15); // 新街口
         save_station_id(3'd1, 6'd21);  check_same_station_id(3'd3, 6'd22); // 南京南站
@@ -445,9 +496,15 @@ module tb_ticket_price_top;
         save_station_id(3'd2, 6'd24);  check_same_station_id(3'd4, 6'd12); // 金马路
         save_station_id(3'd1, 6'd11);  check_same_station_id(3'd4, 6'd4);  // 鼓楼
         save_station_id(3'd3, 6'd12);  check_same_station_id(3'd4, 6'd5);  // 鸡鸣寺
+        save_station_id(3'd3, 6'd27);  check_same_station_id(3'd5, 6'd3);  // 诚信大道
+        save_station_id(3'd1, 6'd27);  check_same_station_id(3'd5, 6'd6);  // 竹山路
+        save_station_id(3'd3, 6'd16);  check_same_station_id(3'd5, 6'd17); // 夫子庙
+        save_station_id(3'd1, 6'd15);  check_same_station_id(3'd5, 6'd18); // 三山街
+        save_station_id(3'd2, 6'd14);  check_same_station_id(3'd5, 6'd20); // 上海路
+        save_station_id(3'd4, 6'd3);   check_same_station_id(3'd5, 6'd22); // 云南路
 
         repeat (5) @(posedge clk);
-        sw4_rst_n = 1'b1;
+        sw4_rst_n = 1'b0;
         repeat (6) @(posedge clk);
         wait_state(MODE_SELECT);
 
@@ -503,21 +560,21 @@ module tb_ticket_price_top;
             $display("TEST_FAIL: invalid payment code was not ignored");
             $finish;
         end
-        {sw3, sw2, sw1} = 3'b001;
+        {sw3, sw2, sw1} = 3'b110;
         press_key1;
         if ((dut.state !== PAY) || (dut.paid_amount !== 10'd1) ||
             (dut.display_digits !== 32'h008ff001)) begin
             $display("TEST_FAIL: one-yuan payment/paid display");
             $finish;
         end
-        {sw3, sw2, sw1} = 3'b010;
+        {sw3, sw2, sw1} = 3'b101;
         press_key1;
         if ((dut.state !== PAY) || (dut.paid_amount !== 10'd6) ||
             (dut.display_digits !== 32'h008ff006)) begin
             $display("TEST_FAIL: five-yuan payment/paid display");
             $finish;
         end
-        {sw3, sw2, sw1} = 3'b011;
+        {sw3, sw2, sw1} = 3'b100;
         press_key1;
         wait_state(VEND);
         if ((dut.change_amount !== 10'd8) || (ticket_seen !== 1) ||
@@ -556,7 +613,7 @@ module tb_ticket_price_top;
             $display("TEST_FAIL: cancellation scenario setup");
             $finish;
         end
-        {sw3, sw2, sw1} = 3'b100;
+        {sw3, sw2, sw1} = 3'b011;
         press_key1;
         press_key4;
         wait_state(REFUND);
@@ -572,44 +629,36 @@ module tb_ticket_price_top;
             $finish;
         end
 
-        // Every line-selection key must flash its matching seven-segment digit,
-        // while all four LEDs remain off.
+        // The five line digits stay visible while only the selected one
+        // flashes continuously. KEY3 increments, KEY4 decrements, KEY1
+        // confirms and KEY2 returns to the preceding screen.
         press_key2;
         wait_state(ORIGIN_LINE);
-        if (dut.display_digits[31:16] !== 16'h1234) begin
-            $display("TEST_FAIL: line-selection display does not show 1234");
-            $finish;
-        end
+        check_line_selection_screen(3'd1);
+        press_key4;
+        check_line_selection_screen(3'd5);
+        press_key3;
+        check_line_selection_screen(3'd1);
+        press_key3; check_line_selection_screen(3'd2);
+        press_key3; check_line_selection_screen(3'd3);
+        press_key3; check_line_selection_screen(3'd4);
+        press_key3; check_line_selection_screen(3'd5);
         press_key1;
         wait_state(ORIGIN_STATION);
-        if ((dut.selected_line !== 3'd1) || (line1_digit_flash_count !== 2)) begin
-            $display("TEST_FAIL: KEY1/line1 digit selection");
+        if ((dut.selected_line !== 3'd5) ||
+            (dut.display_digits[31:28] !== 4'd5) ||
+            (dut.display_digits[11:0] !== 12'h501)) begin
+            $display("TEST_FAIL: line 5 confirmation/station code");
             $finish;
         end
         press_key2;
         wait_state(ORIGIN_LINE);
-        press_key2;
-        wait_state(ORIGIN_STATION);
-        if ((dut.selected_line !== 3'd2) || (line2_digit_flash_count !== 2)) begin
-            $display("TEST_FAIL: KEY2/line2 digit selection");
+        if (dut.selected_line !== 3'd5) begin
+            $display("TEST_FAIL: station-to-line back navigation");
             $finish;
         end
         press_key2;
-        wait_state(ORIGIN_LINE);
-        press_key3;
-        wait_state(ORIGIN_STATION);
-        if ((dut.selected_line !== 3'd3) || (line3_digit_flash_count !== 2)) begin
-            $display("TEST_FAIL: KEY3/line3 digit selection");
-            $finish;
-        end
-        press_key2;
-        wait_state(ORIGIN_LINE);
-        press_key4;
-        wait_state(ORIGIN_STATION);
-        if ((dut.selected_line !== 3'd4) || (line4_digit_flash_count !== 2)) begin
-            $display("TEST_FAIL: KEY4/line4 digit selection");
-            $finish;
-        end
+        wait_state(MODE_SELECT);
         press_key2;
         wait_state(ORIGIN_LINE);
 
@@ -617,10 +666,6 @@ module tb_ticket_price_top;
         {sw3, sw2, sw1} = 3'b000;
         press_key1;
         wait_state(ORIGIN_STATION);
-        if (line1_digit_flash_count !== 4) begin
-            $display("TEST_FAIL: selected line digit flashed %0d times", line1_digit_flash_count);
-            $finish;
-        end
         press_key1;
         wait_state(DEST_LINE);
         if (all_flash_count !== 2) begin
@@ -646,7 +691,7 @@ module tb_ticket_price_top;
         end
         press_key1;
         wait_state(PAY);
-        {sw3, sw2, sw1} = 3'b010;
+        {sw3, sw2, sw1} = 3'b101;
         press_key1;
         wait_state(VEND);
         if ((dut.change_amount !== 10'd2) || (ticket_seen !== 2)) begin
@@ -685,6 +730,8 @@ module tb_ticket_price_top;
         press_key1;
         wait_state(DEST_LINE);
         press_key4;
+        press_key4;
+        press_key1;
         wait_state(DEST_STATION);
         if ((dut.selected_line !== 3'd4) ||
             (dut.display_digits[11:0] !== 12'h401)) begin
@@ -704,7 +751,47 @@ module tb_ticket_price_top;
         press_key2;
         wait_state(MODE_SELECT);
 
-        $display("TEST_PASS: all 5460 station lookups, active-low LEDs, isolated line-digit double flashes, 31-station extended line 3, navigation, fares, total/paid display, change-only hold, ticket-count LED flashes with fixed interval, and cancellation refund are correct.");
+        // Full line-5 UI query: 501 (Jiyin Avenue) to 503 (Chengxin
+        // Avenue) is 1768 + 3095 = 4863 m, hence 3 yuan. Also verify that
+        // KEY2 on the destination-line screen restores the chosen origin.
+        press_key2;
+        wait_state(ORIGIN_LINE);
+        press_key4;
+        check_line_selection_screen(3'd5);
+        press_key1;
+        wait_state(ORIGIN_STATION);
+        press_key1;
+        wait_state(DEST_LINE);
+        press_key2;
+        wait_state(ORIGIN_STATION);
+        if ((dut.selected_line !== 3'd5) || (dut.station_index !== 6'd1) ||
+            (dut.display_digits[11:0] !== 12'h501)) begin
+            $display("TEST_FAIL: destination-line KEY2 did not restore origin 501");
+            $finish;
+        end
+        press_key1;
+        wait_state(DEST_LINE);
+        press_key4;
+        press_key1;
+        wait_state(DEST_STATION);
+        press_key3;
+        press_key3;
+        if ((dut.selected_line !== 3'd5) || (dut.station_index !== 6'd3) ||
+            (dut.display_digits[11:0] !== 12'h503)) begin
+            $display("TEST_FAIL: line 5 destination station selection");
+            $finish;
+        end
+        press_key1;
+        wait_state(TICKET_COUNT);
+        if ((dut.last_distance_m !== 17'd4863) || (dut.unit_fare !== 5'd3)) begin
+            $display("TEST_FAIL: line 5 distance/fare, distance=%0d fare=%0d",
+                     dut.last_distance_m, dut.unit_fare);
+            $finish;
+        end
+        press_key2;
+        wait_state(MODE_SELECT);
+
+        $display("TEST_PASS: all 8256 station lookups across lines 1-5, active-high LEDs, inverted switches, five-digit continuous line selection blink, navigation, fares, total/paid display, change-only hold, ticket-count LED flashes with fixed interval, and cancellation refund are correct.");
         $finish;
     end
 

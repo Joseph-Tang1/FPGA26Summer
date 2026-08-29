@@ -9,11 +9,12 @@ set_property PACKAGE_PIN N14 [get_ports sw1]
 set_property PACKAGE_PIN P16 [get_ports sw2]
 set_property PACKAGE_PIN R17 [get_ports sw3]
 
-# On-board LED1..LED4 pins from the matching Nuclei XC7A75T board constraints.
-set_property PACKAGE_PIN E22 [get_ports {led[0]}]
-set_property PACKAGE_PIN D22 [get_ports {led[1]}]
-set_property PACKAGE_PIN D19 [get_ports {led[2]}]
-set_property PACKAGE_PIN F20 [get_ports {led[3]}]
+# HX7A75C manual figure 3-27: LED anodes are driven through 1 kOhm
+# resistors and cathodes connect to GND, so LED1..LED4 are active-high.
+set_property PACKAGE_PIN AA6 [get_ports {led[0]}]
+set_property PACKAGE_PIN V7  [get_ports {led[1]}]
+set_property PACKAGE_PIN W7  [get_ports {led[2]}]
+set_property PACKAGE_PIN AB7 [get_ports {led[3]}]
 
 set_property PACKAGE_PIN AB18 [get_ports {seg[0]}]
 set_property PACKAGE_PIN U17  [get_ports {seg[1]}]

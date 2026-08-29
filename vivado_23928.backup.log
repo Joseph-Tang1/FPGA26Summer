@@ -3,8 +3,8 @@
 # SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
 # IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
 # SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-# Start of session at: Sat Aug 29 16:00:21 2026
-# Process ID: 14592
+# Start of session at: Sat Aug 29 16:16:44 2026
+# Process ID: 23928
 # Current directory: D:/FPGA26FALL/ticket_price
 # Command line: vivado.exe -mode batch -source scripts\run_sim.tcl
 # Log file: D:/FPGA26FALL/ticket_price/vivado.log
@@ -19,7 +19,7 @@
 # Host memory       :16962 MB
 # Swap memory       :4703 MB
 # Total Virtual     :21665 MB
-# Available Virtual :4018 MB
+# Available Virtual :2333 MB
 #-----------------------------------------------------------
 source {scripts\run_sim.tcl}
 # set script_dir [file normalize [file dirname [info script]]]
@@ -30,7 +30,7 @@ source {scripts\run_sim.tcl}
 INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory 'D:/FPGA26FALL/ticket_price/ticket_price.gen/sources_1'.
 Scanning sources...
 Finished scanning sources
-open_project: Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 531.605 ; gain = 197.133
+open_project: Time (s): cpu = 00:00:16 ; elapsed = 00:00:24 . Memory (MB): peak = 533.492 ; gain = 203.078
 # set_property top tb_ticket_price_top [get_filesets sim_1]
 # launch_simulation
 Command: launch_simulation 
@@ -114,10 +114,10 @@ WARNING: [Wavedata 42-489] Can't add object "/tb_ticket_price_top/expected_dista
 ## run 1000ns
 INFO: [USF-XSim-96] XSim completed. Design snapshot 'tb_ticket_price_top_behav' loaded.
 INFO: [USF-XSim-97] XSim simulation ran for 1000ns
-launch_simulation: Time (s): cpu = 00:00:00 ; elapsed = 00:00:08 . Memory (MB): peak = 551.605 ; gain = 20.000
+launch_simulation: Time (s): cpu = 00:00:01 ; elapsed = 00:00:08 . Memory (MB): peak = 555.848 ; gain = 22.355
 # run all
-TEST_FAIL: requested flash interval changed for count 2, delta=60000
-$finish called at time : 218871 ns : File "D:/FPGA26FALL/ticket_price/sim/tb_ticket_price_top.v" Line 356
+TEST_PASS: all 5460 station lookups, manual-confirmed active-high LEDs, inverted switches, isolated line-digit double flashes, 31-station extended line 3, navigation, fares, total/paid display, change-only hold, ticket-count LED flashes with fixed interval, and cancellation refund are correct.
+$finish called at time : 244390 ns : File "D:/FPGA26FALL/ticket_price/sim/tb_ticket_price_top.v" Line 708
 # close_sim
 INFO: [Simtcl 6-16] Simulation closed
 # set simulation_log [file join $project_dir ticket_price.sim sim_1 behav xsim simulate.log]
@@ -126,4 +126,4 @@ INFO: [Simtcl 6-16] Simulation closed
 # }
 # close_project
 # exit
-INFO: [Common 17-206] Exiting Vivado at Sat Aug 29 16:00:41 2026...
+INFO: [Common 17-206] Exiting Vivado at Sat Aug 29 16:17:31 2026...

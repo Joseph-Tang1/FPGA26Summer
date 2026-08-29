@@ -1,15 +1,16 @@
 {
-  "line_count": 4,
+  "line_count": 5,
   "line_station_counts": [
     32,
     30,
     31,
-    18
+    18,
+    30
   ],
-  "station_occurrences": 111,
-  "unique_station_count": 104,
-  "pair_count": 5356,
+  "station_occurrences": 141,
+  "unique_station_count": 128,
+  "pair_count": 8128,
   "distance_width_bits": 17,
-  "maximum_distance_m": 53560,
+  "maximum_distance_m": 52497,
   "maximum_fare_yuan": 9
 }

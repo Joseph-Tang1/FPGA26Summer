@@ -111,6 +111,30 @@ module triangle_base_rom (
             7'd101: base = 13'd5050;
             7'd102: base = 13'd5151;
             7'd103: base = 13'd5253;
+            7'd104: base = 13'd5356;
+            7'd105: base = 13'd5460;
+            7'd106: base = 13'd5565;
+            7'd107: base = 13'd5671;
+            7'd108: base = 13'd5778;
+            7'd109: base = 13'd5886;
+            7'd110: base = 13'd5995;
+            7'd111: base = 13'd6105;
+            7'd112: base = 13'd6216;
+            7'd113: base = 13'd6328;
+            7'd114: base = 13'd6441;
+            7'd115: base = 13'd6555;
+            7'd116: base = 13'd6670;
+            7'd117: base = 13'd6786;
+            7'd118: base = 13'd6903;
+            7'd119: base = 13'd7021;
+            7'd120: base = 13'd7140;
+            7'd121: base = 13'd7260;
+            7'd122: base = 13'd7381;
+            7'd123: base = 13'd7503;
+            7'd124: base = 13'd7626;
+            7'd125: base = 13'd7750;
+            7'd126: base = 13'd7875;
+            7'd127: base = 13'd8001;
             default: base = 13'd0;
         endcase
     end

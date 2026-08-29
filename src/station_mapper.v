@@ -149,6 +149,42 @@ module station_mapper (
                     default: begin global_id = 7'd0; valid = 1'b0; end
                 endcase
             end
+            3'd5: begin
+                station_count = 6'd30;
+                case (local_index)
+                    6'd1: begin global_id = 7'd104; valid = 1'b1; end
+                    6'd2: begin global_id = 7'd105; valid = 1'b1; end
+                    6'd3: begin global_id = 7'd84; valid = 1'b1; end
+                    6'd4: begin global_id = 7'd106; valid = 1'b1; end
+                    6'd5: begin global_id = 7'd107; valid = 1'b1; end
+                    6'd6: begin global_id = 7'd26; valid = 1'b1; end
+                    6'd7: begin global_id = 7'd108; valid = 1'b1; end
+                    6'd8: begin global_id = 7'd109; valid = 1'b1; end
+                    6'd9: begin global_id = 7'd110; valid = 1'b1; end
+                    6'd10: begin global_id = 7'd111; valid = 1'b1; end
+                    6'd11: begin global_id = 7'd112; valid = 1'b1; end
+                    6'd12: begin global_id = 7'd113; valid = 1'b1; end
+                    6'd13: begin global_id = 7'd114; valid = 1'b1; end
+                    6'd14: begin global_id = 7'd115; valid = 1'b1; end
+                    6'd15: begin global_id = 7'd116; valid = 1'b1; end
+                    6'd16: begin global_id = 7'd117; valid = 1'b1; end
+                    6'd17: begin global_id = 7'd74; valid = 1'b1; end
+                    6'd18: begin global_id = 7'd14; valid = 1'b1; end
+                    6'd19: begin global_id = 7'd118; valid = 1'b1; end
+                    6'd20: begin global_id = 7'd45; valid = 1'b1; end
+                    6'd21: begin global_id = 7'd119; valid = 1'b1; end
+                    6'd22: begin global_id = 7'd91; valid = 1'b1; end
+                    6'd23: begin global_id = 7'd120; valid = 1'b1; end
+                    6'd24: begin global_id = 7'd121; valid = 1'b1; end
+                    6'd25: begin global_id = 7'd122; valid = 1'b1; end
+                    6'd26: begin global_id = 7'd123; valid = 1'b1; end
+                    6'd27: begin global_id = 7'd124; valid = 1'b1; end
+                    6'd28: begin global_id = 7'd125; valid = 1'b1; end
+                    6'd29: begin global_id = 7'd126; valid = 1'b1; end
+                    6'd30: begin global_id = 7'd127; valid = 1'b1; end
+                    default: begin global_id = 7'd0; valid = 1'b0; end
+                endcase
+            end
             default: begin
                 station_count = 6'd0;
                 global_id = 7'd0;

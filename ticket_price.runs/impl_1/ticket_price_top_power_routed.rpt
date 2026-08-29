@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
-| Date             : Sat Aug 29 16:03:42 2026
+| Date             : Sat Aug 29 16:44:48 2026
 | Host             : LAPTOP-J02AFG1P running 64-bit major release  (build 9200)
 | Command          : report_power -file ticket_price_top_power_routed.rpt -pb ticket_price_top_power_summary_routed.pb -rpx ticket_price_top_power_routed.rpx
 | Design           : ticket_price_top
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.103        |
+| Total On-Chip Power (W)  | 0.100        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.006        |
+| Dynamic (W)              | 0.003        |
 | Device Static (W)        | 0.097        |
 | Effective TJA (C/W)      | 2.7          |
 | Max Ambient (C)          | 84.7         |
@@ -53,17 +53,17 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |     0.001 |        3 |       --- |             --- |
-| Slice Logic    |    <0.001 |     1206 |       --- |             --- |
-|   LUT as Logic |    <0.001 |      675 |     47200 |            1.43 |
-|   CARRY4       |    <0.001 |       65 |     15850 |            0.41 |
-|   Register     |    <0.001 |      278 |     94400 |            0.29 |
-|   F7/F8 Muxes  |    <0.001 |        2 |     63400 |           <0.01 |
+| Slice Logic    |    <0.001 |     1251 |       --- |             --- |
+|   LUT as Logic |    <0.001 |      682 |     47200 |            1.44 |
+|   CARRY4       |    <0.001 |       71 |     15850 |            0.45 |
+|   Register     |    <0.001 |      303 |     94400 |            0.32 |
+|   F7/F8 Muxes  |    <0.001 |        7 |     63400 |            0.01 |
 |   Others       |     0.000 |       17 |       --- |             --- |
-| Signals        |    <0.001 |     1059 |       --- |             --- |
-| Block RAM      |    <0.001 |      4.5 |       105 |            4.29 |
-| I/O            |     0.003 |       29 |       285 |           10.18 |
+| Signals        |    <0.001 |     1096 |       --- |             --- |
+| Block RAM      |     0.000 |      4.5 |       105 |            4.29 |
+| I/O            |     0.001 |       29 |       285 |           10.18 |
 | Static Power   |     0.097 |          |           |                 |
-| Total          |     0.103 |          |           |                 |
+| Total          |     0.100 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -75,7 +75,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Vccint    |       1.000 |     0.017 |       0.002 |      0.015 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.018 |       0.000 |      0.018 |       NA    | Unspecified | NA         |
-| Vcco33    |       3.300 |     0.005 |       0.001 |      0.004 |       NA    | Unspecified | NA         |
+| Vcco33    |       3.300 |     0.004 |       0.000 |      0.004 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -142,7 +142,7 @@ Table of Contents
 +------------------+-----------+
 | Name             | Power (W) |
 +------------------+-----------+
-| ticket_price_top |     0.006 |
+| ticket_price_top |     0.003 |
 +------------------+-----------+
 
 

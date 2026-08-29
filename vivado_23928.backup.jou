@@ -3,8 +3,8 @@
 # SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
 # IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
 # SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-# Start of session at: Sat Aug 29 16:00:21 2026
-# Process ID: 14592
+# Start of session at: Sat Aug 29 16:16:44 2026
+# Process ID: 23928
 # Current directory: D:/FPGA26FALL/ticket_price
 # Command line: vivado.exe -mode batch -source scripts\run_sim.tcl
 # Log file: D:/FPGA26FALL/ticket_price/vivado.log
@@ -19,7 +19,7 @@
 # Host memory       :16962 MB
 # Swap memory       :4703 MB
 # Total Virtual     :21665 MB
-# Available Virtual :4018 MB
+# Available Virtual :2333 MB
 #-----------------------------------------------------------
 source {scripts\run_sim.tcl}
 source tb_ticket_price_top.tcl

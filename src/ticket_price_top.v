@@ -6,7 +6,7 @@ module ticket_price_top #(
     parameter integer BLINK_HALF_CYCLES  = 12_500_000,
     parameter integer EVENT_HOLD_CYCLES  = 50_000_000,
     parameter integer VEND_HOLD_CYCLES   = 150_000_000,
-    parameter integer LED_ACTIVE_LOW     = 1,
+    parameter integer LED_ACTIVE_LOW     = 0,
     parameter         DISTANCE_ROM_FILE  = "distance_rom.mem"
 ) (
     input  wire       clk,
@@ -49,6 +49,8 @@ module ticket_price_top #(
     reg [5:0] station_index;
     reg [6:0] origin_global;
     reg [6:0] destination_global;
+    reg [2:0] origin_line_saved;
+    reg [5:0] origin_station_saved;
     reg [4:0] unit_fare;
     reg [3:0] ticket_count;
     reg [9:0] total_due;
@@ -57,6 +59,8 @@ module ticket_price_top #(
     reg [9:0] refund_amount;
     reg [16:0] last_distance_m;
     reg [31:0] event_count;
+    reg [31:0] line_blink_count;
+    reg        line_blink_on;
 
     reg        blink_start;
     reg [3:0]  blink_mask;
@@ -91,22 +95,30 @@ module ticket_price_top #(
     reg  [31:0] display_digits;
     reg  [3:0] logical_led;
 
+    // HX7A75C switches are electrically 1 when moved up and 0 when moved
+    // down. Invert all four switches so the user-facing 0/1 convention is
+    // reversed. The SW4 input keeps its legacy port name for XDC stability.
+    wire internal_rst_n = ~sw4_rst_n;
+    wire sw1_logic = ~sw1;
+    wire sw2_logic = ~sw2;
+    wire sw3_logic = ~sw3;
+
     key_filter #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES)) u_key1 (
-        .clk(clk), .rst_n(sw4_rst_n), .key_n(key1_n), .press_pulse(key1_pressed)
+        .clk(clk), .rst_n(internal_rst_n), .key_n(key1_n), .press_pulse(key1_pressed)
     );
     key_filter #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES)) u_key2 (
-        .clk(clk), .rst_n(sw4_rst_n), .key_n(key2_n), .press_pulse(key2_pressed)
+        .clk(clk), .rst_n(internal_rst_n), .key_n(key2_n), .press_pulse(key2_pressed)
     );
     key_filter #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES)) u_key3 (
-        .clk(clk), .rst_n(sw4_rst_n), .key_n(key3_n), .press_pulse(key3_pressed)
+        .clk(clk), .rst_n(internal_rst_n), .key_n(key3_n), .press_pulse(key3_pressed)
     );
     key_filter #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES)) u_key4 (
-        .clk(clk), .rst_n(sw4_rst_n), .key_n(key4_n), .press_pulse(key4_pressed)
+        .clk(clk), .rst_n(internal_rst_n), .key_n(key4_n), .press_pulse(key4_pressed)
     );
 
     blink_controller #(.HALF_PERIOD_CYCLES(BLINK_HALF_CYCLES)) u_blink (
         .clk(clk),
-        .rst_n(sw4_rst_n),
+        .rst_n(internal_rst_n),
         .start(blink_start),
         .mask(blink_mask),
         .flash_count(blink_flash_count),
@@ -168,14 +180,14 @@ module ticket_price_top #(
 
     seven_seg_display #(.SCAN_DIV(SCAN_DIV)) u_display (
         .clk(clk),
-        .rst_n(sw4_rst_n),
+        .rst_n(internal_rst_n),
         .digits(display_digits),
         .seg(seg),
         .sel(sel)
     );
 
     always @(*) begin
-        case ({sw3, sw2, sw1})
+        case ({sw3_logic, sw2_logic, sw1_logic})
             3'b001: coin_value = 6'd1;
             3'b010: coin_value = 6'd5;
             3'b011: coin_value = 6'd10;
@@ -191,6 +203,7 @@ module ticket_price_top #(
             3'd2: station_code = 10'd200 + station_index;
             3'd3: station_code = 10'd300 + station_index;
             3'd4: station_code = 10'd400 + station_index;
+            3'd5: station_code = 10'd500 + station_index;
             default: station_code = 10'd0;
         endcase
     end
@@ -198,12 +211,14 @@ module ticket_price_top #(
     // Use a synchronous reset for registers that feed the block-RAM address.
     // This keeps asynchronous control signals out of the inferred BRAM path.
     always @(posedge clk) begin
-        if (!sw4_rst_n) begin
+        if (!internal_rst_n) begin
             state              <= MODE_SELECT;
             selected_line      <= 3'd0;
             station_index      <= 6'd1;
             origin_global      <= 7'd0;
             destination_global <= 7'd0;
+            origin_line_saved  <= 3'd1;
+            origin_station_saved <= 6'd1;
             unit_fare          <= 5'd2;
             ticket_count       <= 4'd1;
             total_due          <= 10'd0;
@@ -212,6 +227,8 @@ module ticket_price_top #(
             refund_amount      <= 10'd0;
             last_distance_m    <= 17'd0;
             event_count        <= 32'd0;
+            line_blink_count   <= 32'd0;
+            line_blink_on      <= 1'b1;
             blink_start        <= 1'b0;
             blink_mask         <= 4'b0000;
             blink_flash_count  <= 4'd2;
@@ -223,6 +240,20 @@ module ticket_price_top #(
             distance_query <= 1'b0;
             ticket_pulse   <= 1'b0;
             refund_pulse   <= 1'b0;
+
+            // In either line-selection screen the selected digit flashes
+            // continuously; the other four line digits remain constant.
+            if ((state == ORIGIN_LINE) || (state == DEST_LINE)) begin
+                if (line_blink_count >= BLINK_HALF_CYCLES - 1) begin
+                    line_blink_count <= 32'd0;
+                    line_blink_on <= ~line_blink_on;
+                end else begin
+                    line_blink_count <= line_blink_count + 1'b1;
+                end
+            end else begin
+                line_blink_count <= 32'd0;
+                line_blink_on <= 1'b1;
+            end
 
             case (state)
                 MODE_SELECT: begin
@@ -238,6 +269,7 @@ module ticket_price_top #(
                         unit_fare <= 5'd2;
                         state <= MANUAL_FARE;
                     end else if (key2_pressed) begin
+                        selected_line <= 3'd1;
                         state <= ORIGIN_LINE;
                     end
                 end
@@ -263,29 +295,20 @@ module ticket_price_top #(
 
                 ORIGIN_LINE: begin
                     if (key1_pressed) begin
-                        selected_line <= 3'd1;
-                        blink_mask <= 4'b0001;
-                        blink_flash_count <= 4'd2;
-                        blink_start <= 1'b1;
-                        state <= ORIGIN_LINE_BLINK;
+                        station_index <= 6'd1;
+                        state <= ORIGIN_STATION;
                     end else if (key2_pressed) begin
-                        selected_line <= 3'd2;
-                        blink_mask <= 4'b0010;
-                        blink_flash_count <= 4'd2;
-                        blink_start <= 1'b1;
-                        state <= ORIGIN_LINE_BLINK;
+                        state <= MODE_SELECT;
                     end else if (key3_pressed) begin
-                        selected_line <= 3'd3;
-                        blink_mask <= 4'b0100;
-                        blink_flash_count <= 4'd2;
-                        blink_start <= 1'b1;
-                        state <= ORIGIN_LINE_BLINK;
+                        if (selected_line >= 3'd5)
+                            selected_line <= 3'd1;
+                        else
+                            selected_line <= selected_line + 1'b1;
                     end else if (key4_pressed) begin
-                        selected_line <= 3'd4;
-                        blink_mask <= 4'b1000;
-                        blink_flash_count <= 4'd2;
-                        blink_start <= 1'b1;
-                        state <= ORIGIN_LINE_BLINK;
+                        if (selected_line <= 3'd1)
+                            selected_line <= 3'd5;
+                        else
+                            selected_line <= selected_line - 1'b1;
                     end
                 end
 
@@ -309,6 +332,8 @@ module ticket_price_top #(
                             station_index <= station_index - 1'b1;
                     end else if (key1_pressed && mapped_valid) begin
                         origin_global <= mapped_global;
+                        origin_line_saved <= selected_line;
+                        origin_station_saved <= station_index;
                         blink_mask <= 4'b1111;
                         blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
@@ -320,7 +345,7 @@ module ticket_price_top #(
 
                 ORIGIN_STATION_BLINK: begin
                     if (blink_done) begin
-                        selected_line <= 3'd0;
+                        selected_line <= 3'd1;
                         station_index <= 6'd1;
                         state <= DEST_LINE;
                     end
@@ -328,29 +353,22 @@ module ticket_price_top #(
 
                 DEST_LINE: begin
                     if (key1_pressed) begin
-                        selected_line <= 3'd1;
-                        blink_mask <= 4'b0001;
-                        blink_flash_count <= 4'd2;
-                        blink_start <= 1'b1;
-                        state <= DEST_LINE_BLINK;
+                        station_index <= 6'd1;
+                        state <= DEST_STATION;
                     end else if (key2_pressed) begin
-                        selected_line <= 3'd2;
-                        blink_mask <= 4'b0010;
-                        blink_flash_count <= 4'd2;
-                        blink_start <= 1'b1;
-                        state <= DEST_LINE_BLINK;
+                        selected_line <= origin_line_saved;
+                        station_index <= origin_station_saved;
+                        state <= ORIGIN_STATION;
                     end else if (key3_pressed) begin
-                        selected_line <= 3'd3;
-                        blink_mask <= 4'b0100;
-                        blink_flash_count <= 4'd2;
-                        blink_start <= 1'b1;
-                        state <= DEST_LINE_BLINK;
+                        if (selected_line >= 3'd5)
+                            selected_line <= 3'd1;
+                        else
+                            selected_line <= selected_line + 1'b1;
                     end else if (key4_pressed) begin
-                        selected_line <= 3'd4;
-                        blink_mask <= 4'b1000;
-                        blink_flash_count <= 4'd2;
-                        blink_start <= 1'b1;
-                        state <= DEST_LINE_BLINK;
+                        if (selected_line <= 3'd1)
+                            selected_line <= 3'd5;
+                        else
+                            selected_line <= selected_line - 1'b1;
                     end
                 end
 
@@ -489,7 +507,17 @@ module ticket_price_top #(
             end
 
             ORIGIN_LINE, DEST_LINE: begin
-                display_digits[31:16] = {4'd1, 4'd2, 4'd3, 4'd4};
+                display_digits[31:12] = {4'd1, 4'd2, 4'd3, 4'd4, 4'd5};
+                if (!line_blink_on) begin
+                    case (selected_line)
+                        3'd1: display_digits[31:28] = 4'hf;
+                        3'd2: display_digits[27:24] = 4'hf;
+                        3'd3: display_digits[23:20] = 4'hf;
+                        3'd4: display_digits[19:16] = 4'hf;
+                        3'd5: display_digits[15:12] = 4'hf;
+                        default: display_digits[31:12] = {4'd1, 4'd2, 4'd3, 4'd4, 4'd5};
+                    endcase
+                end
             end
 
             ORIGIN_LINE_BLINK, DEST_LINE_BLINK: begin

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
-| Date         : Sat Aug 29 16:03:20 2026
+| Date         : Sat Aug 29 16:44:20 2026
 | Host         : LAPTOP-J02AFG1P running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file ticket_price_top_control_sets_placed.rpt
 | Design       : ticket_price_top
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |    17 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    58 |
+| Unused register locations in slices containing registers |    57 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -43,11 +43,11 @@ Table of Contents
 | >= 0 to < 4        |     0 |
 | >= 4 to < 6        |     4 |
 | >= 6 to < 8        |     3 |
-| >= 8 to < 10       |     4 |
+| >= 8 to < 10       |     2 |
 | >= 10 to < 12      |     3 |
 | >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     0 |
-| >= 16              |     3 |
+| >= 16              |     5 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,38 +58,38 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               8 |            5 |
-| No           | No                    | Yes                    |             121 |           44 |
-| No           | Yes                   | No                     |               0 |            0 |
+| No           | No                    | No                     |               9 |            7 |
+| No           | No                    | Yes                    |             122 |           45 |
+| No           | Yes                   | No                     |              24 |            6 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |              37 |           11 |
-| Yes          | Yes                   | No                     |             112 |           39 |
+| Yes          | No                    | Yes                    |              30 |            8 |
+| Yes          | Yes                   | No                     |             118 |           48 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+----------------+--------------------------------+------------------+------------------+----------------+--------------+
-|  Clock Signal  |          Enable Signal         | Set/Reset Signal | Slice Load Count | Bel Load Count | Bels / Slice |
-+----------------+--------------------------------+------------------+------------------+----------------+--------------+
-|  clk_IBUF_BUFG | u_blink/saved_mask[3]_i_1_n_0  | u_blink/p_0_in   |                2 |              4 |         2.00 |
-|  clk_IBUF_BUFG | u_blink/E[0]                   | u_blink/p_0_in   |                2 |              4 |         2.00 |
-|  clk_IBUF_BUFG | u_key3/state_reg[1][0]         | u_blink/p_0_in   |                2 |              4 |         2.00 |
-|  clk_IBUF_BUFG | u_key3/state_reg[0]_0[0]       | u_blink/p_0_in   |                4 |              5 |         1.25 |
-|  clk_IBUF_BUFG | u_key3/E[0]                    | u_blink/p_0_in   |                4 |              6 |         1.50 |
-|  clk_IBUF_BUFG | u_key1/state_reg[2][0]         | u_blink/p_0_in   |                2 |              7 |         3.50 |
-|  clk_IBUF_BUFG | u_key1/press_pulse_reg_3[0]    | u_blink/p_0_in   |                1 |              7 |         7.00 |
-|  clk_IBUF_BUFG |                                |                  |                5 |              8 |         1.60 |
-|  clk_IBUF_BUFG | u_key1/E[0]                    | u_blink/p_0_in   |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | u_blink/half_remaining         | u_blink/p_0_in   |                4 |              9 |         2.25 |
-|  clk_IBUF_BUFG | u_key3/state_reg[2]_0[0]       | u_blink/p_0_in   |                3 |              9 |         3.00 |
-|  clk_IBUF_BUFG | u_key3/press_pulse_reg_1[0]    | u_blink/p_0_in   |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG | u_key4/state_reg[2][0]         | u_blink/p_0_in   |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG | u_key1/state_reg[2]_0[0]       | u_blink/p_0_in   |                2 |             10 |         5.00 |
-|  clk_IBUF_BUFG | u_blink/half_count[23]_i_1_n_0 | u_blink/p_0_in   |                5 |             24 |         4.80 |
-|  clk_IBUF_BUFG | u_key4/E[0]                    | u_blink/p_0_in   |               10 |             32 |         3.20 |
-|  clk_IBUF_BUFG |                                | u_blink/p_0_in   |               44 |            121 |         2.75 |
-+----------------+--------------------------------+------------------+------------------+----------------+--------------+
++----------------+--------------------------------+-----------------------------+------------------+----------------+--------------+
+|  Clock Signal  |          Enable Signal         |       Set/Reset Signal      | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------+--------------------------------+-----------------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG | u_key3/E[0]                    | sw4_rst_n_IBUF              |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG | u_blink/E[0]                   | sw4_rst_n_IBUF              |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG | u_key3/state_reg[0][0]         | sw4_rst_n_IBUF              |                3 |              5 |         1.67 |
+|  clk_IBUF_BUFG | u_key1/E[0]                    | sw4_rst_n_IBUF              |                2 |              5 |         2.50 |
+|  clk_IBUF_BUFG | u_blink/half_remaining         | sw4_rst_n_IBUF              |                2 |              6 |         3.00 |
+|  clk_IBUF_BUFG | u_blink/state_reg[3]_1[0]      | sw4_rst_n_IBUF              |                3 |              6 |         2.00 |
+|  clk_IBUF_BUFG | u_key1/state_reg[3][0]         | sw4_rst_n_IBUF              |                4 |              7 |         1.75 |
+|  clk_IBUF_BUFG |                                |                             |                7 |              9 |         1.29 |
+|  clk_IBUF_BUFG | u_key1/press_pulse_reg_2[0]    | sw4_rst_n_IBUF              |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG | u_key4/press_pulse_reg_1[0]    | sw4_rst_n_IBUF              |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG | u_key1/press_pulse_reg_3[0]    | sw4_rst_n_IBUF              |                4 |             10 |         2.50 |
+|  clk_IBUF_BUFG | u_key1/press_pulse_reg_1[0]    | sw4_rst_n_IBUF              |                3 |             10 |         3.33 |
+|  clk_IBUF_BUFG | u_key1/state_reg[1]_1[0]       | sw4_rst_n_IBUF              |                9 |             16 |         1.78 |
+|  clk_IBUF_BUFG |                                | line_blink_count[0]_i_1_n_0 |                6 |             24 |         4.00 |
+|  clk_IBUF_BUFG | u_blink/half_count[23]_i_1_n_0 | sw4_rst_n_IBUF              |                6 |             24 |         4.00 |
+|  clk_IBUF_BUFG | u_key4/E[0]                    | sw4_rst_n_IBUF              |               10 |             32 |         3.20 |
+|  clk_IBUF_BUFG |                                | sw4_rst_n_IBUF              |               45 |            122 |         2.71 |
++----------------+--------------------------------+-----------------------------+------------------+----------------+--------------+
 
 
