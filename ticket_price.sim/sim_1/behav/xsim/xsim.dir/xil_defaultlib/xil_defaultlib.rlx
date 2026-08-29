@@ -1,0 +1,15 @@
+0.7
+2020.2
+May 22 2024
+19:03:11
+C:/Users/Lenovo/Desktop/ticket_price/sim/tb_ticket_price_top.v,1787976683,verilog,,,,tb_ticket_price_top,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/binary_to_bcd.v,1787975032,verilog,,C:/Users/Lenovo/Desktop/ticket_price/src/blink_controller.v,,binary_to_bcd,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/blink_controller.v,1787975032,verilog,,C:/Users/Lenovo/Desktop/ticket_price/src/distance_lookup.v,,blink_controller,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/distance_lookup.v,1787975770,verilog,,C:/Users/Lenovo/Desktop/ticket_price/src/fare_calculator.v,,distance_lookup,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/fare_calculator.v,1787975032,verilog,,C:/Users/Lenovo/Desktop/ticket_price/src/key_filter.v,,fare_calculator,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/key_filter.v,1787976038,verilog,,C:/Users/Lenovo/Desktop/ticket_price/src/seven_seg_display.v,,key_filter,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/seven_seg_display.v,1787975032,verilog,,C:/Users/Lenovo/Desktop/ticket_price/src/station_mapper.v,,seven_seg_display,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/station_mapper.v,1787975423,verilog,,C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v,,station_mapper,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v,1787976038,verilog,,C:/Users/Lenovo/Desktop/ticket_price/src/triangle_base_rom.v,,ticket_price_top,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/src/triangle_base_rom.v,1787975423,verilog,,C:/Users/Lenovo/Desktop/ticket_price/sim/tb_ticket_price_top.v,,triangle_base_rom,,,,,,,,
+C:/Users/Lenovo/Desktop/ticket_price/ticket_price.sim/sim_1/behav/xsim/glbl.v,1708598507,verilog,,,,glbl,,,,,,,,

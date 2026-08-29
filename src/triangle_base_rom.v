@@ -1,0 +1,115 @@
+`timescale 1ns / 1ps
+
+// Generated triangular-matrix base address table.
+module triangle_base_rom (
+    input  wire [6:0] index,
+    output reg  [12:0] base
+);
+    always @(*) begin
+        case (index)
+            7'd0: base = 13'd0;
+            7'd1: base = 13'd0;
+            7'd2: base = 13'd1;
+            7'd3: base = 13'd3;
+            7'd4: base = 13'd6;
+            7'd5: base = 13'd10;
+            7'd6: base = 13'd15;
+            7'd7: base = 13'd21;
+            7'd8: base = 13'd28;
+            7'd9: base = 13'd36;
+            7'd10: base = 13'd45;
+            7'd11: base = 13'd55;
+            7'd12: base = 13'd66;
+            7'd13: base = 13'd78;
+            7'd14: base = 13'd91;
+            7'd15: base = 13'd105;
+            7'd16: base = 13'd120;
+            7'd17: base = 13'd136;
+            7'd18: base = 13'd153;
+            7'd19: base = 13'd171;
+            7'd20: base = 13'd190;
+            7'd21: base = 13'd210;
+            7'd22: base = 13'd231;
+            7'd23: base = 13'd253;
+            7'd24: base = 13'd276;
+            7'd25: base = 13'd300;
+            7'd26: base = 13'd325;
+            7'd27: base = 13'd351;
+            7'd28: base = 13'd378;
+            7'd29: base = 13'd406;
+            7'd30: base = 13'd435;
+            7'd31: base = 13'd465;
+            7'd32: base = 13'd496;
+            7'd33: base = 13'd528;
+            7'd34: base = 13'd561;
+            7'd35: base = 13'd595;
+            7'd36: base = 13'd630;
+            7'd37: base = 13'd666;
+            7'd38: base = 13'd703;
+            7'd39: base = 13'd741;
+            7'd40: base = 13'd780;
+            7'd41: base = 13'd820;
+            7'd42: base = 13'd861;
+            7'd43: base = 13'd903;
+            7'd44: base = 13'd946;
+            7'd45: base = 13'd990;
+            7'd46: base = 13'd1035;
+            7'd47: base = 13'd1081;
+            7'd48: base = 13'd1128;
+            7'd49: base = 13'd1176;
+            7'd50: base = 13'd1225;
+            7'd51: base = 13'd1275;
+            7'd52: base = 13'd1326;
+            7'd53: base = 13'd1378;
+            7'd54: base = 13'd1431;
+            7'd55: base = 13'd1485;
+            7'd56: base = 13'd1540;
+            7'd57: base = 13'd1596;
+            7'd58: base = 13'd1653;
+            7'd59: base = 13'd1711;
+            7'd60: base = 13'd1770;
+            7'd61: base = 13'd1830;
+            7'd62: base = 13'd1891;
+            7'd63: base = 13'd1953;
+            7'd64: base = 13'd2016;
+            7'd65: base = 13'd2080;
+            7'd66: base = 13'd2145;
+            7'd67: base = 13'd2211;
+            7'd68: base = 13'd2278;
+            7'd69: base = 13'd2346;
+            7'd70: base = 13'd2415;
+            7'd71: base = 13'd2485;
+            7'd72: base = 13'd2556;
+            7'd73: base = 13'd2628;
+            7'd74: base = 13'd2701;
+            7'd75: base = 13'd2775;
+            7'd76: base = 13'd2850;
+            7'd77: base = 13'd2926;
+            7'd78: base = 13'd3003;
+            7'd79: base = 13'd3081;
+            7'd80: base = 13'd3160;
+            7'd81: base = 13'd3240;
+            7'd82: base = 13'd3321;
+            7'd83: base = 13'd3403;
+            7'd84: base = 13'd3486;
+            7'd85: base = 13'd3570;
+            7'd86: base = 13'd3655;
+            7'd87: base = 13'd3741;
+            7'd88: base = 13'd3828;
+            7'd89: base = 13'd3916;
+            7'd90: base = 13'd4005;
+            7'd91: base = 13'd4095;
+            7'd92: base = 13'd4186;
+            7'd93: base = 13'd4278;
+            7'd94: base = 13'd4371;
+            7'd95: base = 13'd4465;
+            7'd96: base = 13'd4560;
+            7'd97: base = 13'd4656;
+            7'd98: base = 13'd4753;
+            7'd99: base = 13'd4851;
+            7'd100: base = 13'd4950;
+            7'd101: base = 13'd5050;
+            default: base = 13'd0;
+        endcase
+    end
+endmodule

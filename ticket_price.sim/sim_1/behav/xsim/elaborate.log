@@ -1,0 +1,23 @@
+Vivado Simulator v2024.1
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: D:/Vivado/Vivado/2024.1/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_ticket_price_top_behav xil_defaultlib.tb_ticket_price_top xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.key_filter(DEBOUNCE_CYCLES=2)
+Compiling module xil_defaultlib.blink_controller(HALF_PERIOD_CYC...
+Compiling module xil_defaultlib.station_mapper
+Compiling module xil_defaultlib.triangle_base_rom
+Compiling module xil_defaultlib.distance_lookup
+Compiling module xil_defaultlib.fare_calculator
+Compiling module xil_defaultlib.binary_to_bcd
+Compiling module xil_defaultlib.seven_seg_display(SCAN_DIV=2)
+Compiling module xil_defaultlib.ticket_price_top(DEBOUNCE_CYCLES...
+Compiling module xil_defaultlib.tb_ticket_price_top
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot tb_ticket_price_top_behav

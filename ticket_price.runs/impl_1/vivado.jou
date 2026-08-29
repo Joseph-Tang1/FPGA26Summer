@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Sat Aug 29 12:02:23 2026
+# Process ID: 34484
+# Current directory: C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/impl_1
+# Command line: vivado.exe -log ticket_price_top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source ticket_price_top.tcl -notrace
+# Log file: C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/impl_1/ticket_price_top.vdi
+# Journal file: C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/impl_1\vivado.jou
+# Running On        :LAPTOP-J02AFG1P
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :12th Gen Intel(R) Core(TM) i9-12900H
+# CPU Frequency     :2918 MHz
+# CPU Physical cores:14
+# CPU Logical cores :20
+# Host memory       :16962 MB
+# Swap memory       :2684 MB
+# Total Virtual     :19646 MB
+# Available Virtual :4544 MB
+#-----------------------------------------------------------
+source ticket_price_top.tcl -notrace

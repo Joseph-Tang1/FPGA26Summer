@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_ticket_price_top_behav/xsimk.exe -simmode gui -wdb tb_ticket_price_top_behav.wdb -simrunnum 0 -socket 58153
+Design successfully loaded
+Design Loading Memory Usage: 10192 KB (Peak: 10192 KB)
+Design Loading CPU Usage: 30 ms
+Simulation completed
+Simulation Memory Usage: 11188 KB (Peak: 11188 KB)
+Simulation CPU Usage: 46 ms

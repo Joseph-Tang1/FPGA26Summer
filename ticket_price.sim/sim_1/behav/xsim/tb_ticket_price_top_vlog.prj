@@ -1,0 +1,18 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../src/binary_to_bcd.v" \
+"../../../../src/blink_controller.v" \
+"../../../../src/distance_lookup.v" \
+"../../../../src/fare_calculator.v" \
+"../../../../src/key_filter.v" \
+"../../../../src/seven_seg_display.v" \
+"../../../../src/station_mapper.v" \
+"../../../../src/ticket_price_top.v" \
+"../../../../src/triangle_base_rom.v" \
+"../../../../sim/tb_ticket_price_top.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
