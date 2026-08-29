@@ -10,7 +10,7 @@ Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.key_filter(DEBOUNCE_CYCLES=2)
-Compiling module xil_defaultlib.blink_controller(HALF_PERIOD_CYC...
+Compiling module xil_defaultlib.blink_controller
 Compiling module xil_defaultlib.station_mapper
 Compiling module xil_defaultlib.triangle_base_rom
 Compiling module xil_defaultlib.distance_lookup

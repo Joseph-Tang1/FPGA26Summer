@@ -8,14 +8,14 @@
   **** SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
   **** IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
   **** SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-  **** Start of session at: Sat Aug 29 12:01:27 2026
+  **** Start of session at: Sat Aug 29 16:01:49 2026
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
     ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 
 source ticket_price_top.tcl -notrace
-create_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 531.590 ; gain = 200.582
-Command: read_checkpoint -auto_incremental -incremental C:/Users/Lenovo/Desktop/ticket_price/ticket_price.srcs/utils_1/imports/synth_1/ticket_price_top.dcp
-INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/Lenovo/Desktop/ticket_price/ticket_price.srcs/utils_1/imports/synth_1/ticket_price_top.dcp for incremental synthesis
+create_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 531.129 ; gain = 202.305
+Command: read_checkpoint -auto_incremental -incremental D:/FPGA26FALL/ticket_price/ticket_price.srcs/utils_1/imports/synth_1/ticket_price_top.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from D:/FPGA26FALL/ticket_price/ticket_price.srcs/utils_1/imports/synth_1/ticket_price_top.dcp for incremental synthesis
 INFO: [Vivado 12-7989] Please ensure there are no constraint changes
 Command: synth_design -top ticket_price_top -part xc7a75tfgg484-2
 Starting synth_design
@@ -27,83 +27,83 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 4504
+INFO: [Synth 8-7075] Helper process launched with PID 37704
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 1403.000 ; gain = 450.344
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1402.816 ; gain = 449.926
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'ticket_price_top' [C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v:3]
-INFO: [Synth 8-6157] synthesizing module 'key_filter' [C:/Users/Lenovo/Desktop/ticket_price/src/key_filter.v:4]
+INFO: [Synth 8-6157] synthesizing module 'ticket_price_top' [D:/FPGA26FALL/ticket_price/src/ticket_price_top.v:3]
+INFO: [Synth 8-6157] synthesizing module 'key_filter' [D:/FPGA26FALL/ticket_price/src/key_filter.v:4]
 	Parameter DEBOUNCE_CYCLES bound to: 1000000 - type: integer 
-INFO: [Synth 8-226] default block is never used [C:/Users/Lenovo/Desktop/ticket_price/src/key_filter.v:36]
-INFO: [Synth 8-6155] done synthesizing module 'key_filter' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/key_filter.v:4]
-INFO: [Synth 8-6157] synthesizing module 'blink_controller' [C:/Users/Lenovo/Desktop/ticket_price/src/blink_controller.v:4]
+INFO: [Synth 8-226] default block is never used [D:/FPGA26FALL/ticket_price/src/key_filter.v:36]
+INFO: [Synth 8-6155] done synthesizing module 'key_filter' (0#1) [D:/FPGA26FALL/ticket_price/src/key_filter.v:4]
+INFO: [Synth 8-6157] synthesizing module 'blink_controller' [D:/FPGA26FALL/ticket_price/src/blink_controller.v:4]
 	Parameter HALF_PERIOD_CYCLES bound to: 12500000 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'blink_controller' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/blink_controller.v:4]
-INFO: [Synth 8-6157] synthesizing module 'station_mapper' [C:/Users/Lenovo/Desktop/ticket_price/src/station_mapper.v:4]
-INFO: [Synth 8-6155] done synthesizing module 'station_mapper' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/station_mapper.v:4]
-INFO: [Synth 8-6157] synthesizing module 'distance_lookup' [C:/Users/Lenovo/Desktop/ticket_price/src/distance_lookup.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'blink_controller' (0#1) [D:/FPGA26FALL/ticket_price/src/blink_controller.v:4]
+INFO: [Synth 8-6157] synthesizing module 'station_mapper' [D:/FPGA26FALL/ticket_price/src/station_mapper.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'station_mapper' (0#1) [D:/FPGA26FALL/ticket_price/src/station_mapper.v:4]
+INFO: [Synth 8-6157] synthesizing module 'distance_lookup' [D:/FPGA26FALL/ticket_price/src/distance_lookup.v:4]
 	Parameter ROM_FILE bound to: distance_rom.mem - type: string 
-INFO: [Synth 8-3876] $readmem data file 'distance_rom.mem' is read successfully [C:/Users/Lenovo/Desktop/ticket_price/src/distance_lookup.v:34]
-INFO: [Synth 8-6157] synthesizing module 'triangle_base_rom' [C:/Users/Lenovo/Desktop/ticket_price/src/triangle_base_rom.v:4]
-INFO: [Synth 8-6155] done synthesizing module 'triangle_base_rom' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/triangle_base_rom.v:4]
-INFO: [Synth 8-6155] done synthesizing module 'distance_lookup' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/distance_lookup.v:4]
-INFO: [Synth 8-6157] synthesizing module 'fare_calculator' [C:/Users/Lenovo/Desktop/ticket_price/src/fare_calculator.v:4]
-INFO: [Synth 8-6155] done synthesizing module 'fare_calculator' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/fare_calculator.v:4]
-INFO: [Synth 8-6157] synthesizing module 'binary_to_bcd' [C:/Users/Lenovo/Desktop/ticket_price/src/binary_to_bcd.v:4]
-INFO: [Synth 8-6155] done synthesizing module 'binary_to_bcd' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/binary_to_bcd.v:4]
-INFO: [Synth 8-6157] synthesizing module 'seven_seg_display' [C:/Users/Lenovo/Desktop/ticket_price/src/seven_seg_display.v:4]
+INFO: [Synth 8-3876] $readmem data file 'distance_rom.mem' is read successfully [D:/FPGA26FALL/ticket_price/src/distance_lookup.v:35]
+INFO: [Synth 8-6157] synthesizing module 'triangle_base_rom' [D:/FPGA26FALL/ticket_price/src/triangle_base_rom.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'triangle_base_rom' (0#1) [D:/FPGA26FALL/ticket_price/src/triangle_base_rom.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'distance_lookup' (0#1) [D:/FPGA26FALL/ticket_price/src/distance_lookup.v:4]
+INFO: [Synth 8-6157] synthesizing module 'fare_calculator' [D:/FPGA26FALL/ticket_price/src/fare_calculator.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'fare_calculator' (0#1) [D:/FPGA26FALL/ticket_price/src/fare_calculator.v:4]
+INFO: [Synth 8-6157] synthesizing module 'binary_to_bcd' [D:/FPGA26FALL/ticket_price/src/binary_to_bcd.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'binary_to_bcd' (0#1) [D:/FPGA26FALL/ticket_price/src/binary_to_bcd.v:4]
+INFO: [Synth 8-6157] synthesizing module 'seven_seg_display' [D:/FPGA26FALL/ticket_price/src/seven_seg_display.v:4]
 	Parameter SCAN_DIV bound to: 50000 - type: integer 
-INFO: [Synth 8-226] default block is never used [C:/Users/Lenovo/Desktop/ticket_price/src/seven_seg_display.v:31]
-INFO: [Synth 8-6155] done synthesizing module 'seven_seg_display' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/seven_seg_display.v:4]
-INFO: [Synth 8-6155] done synthesizing module 'ticket_price_top' (0#1) [C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v:3]
-WARNING: [Synth 8-6014] Unused sequential element last_distance_m_reg was removed.  [C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v:210]
-WARNING: [Synth 8-6014] Unused sequential element ticket_pulse_reg was removed.  [C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v:215]
-WARNING: [Synth 8-6014] Unused sequential element refund_pulse_reg was removed.  [C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v:216]
+INFO: [Synth 8-226] default block is never used [D:/FPGA26FALL/ticket_price/src/seven_seg_display.v:31]
+INFO: [Synth 8-6155] done synthesizing module 'seven_seg_display' (0#1) [D:/FPGA26FALL/ticket_price/src/seven_seg_display.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'ticket_price_top' (0#1) [D:/FPGA26FALL/ticket_price/src/ticket_price_top.v:3]
+WARNING: [Synth 8-6014] Unused sequential element last_distance_m_reg was removed.  [D:/FPGA26FALL/ticket_price/src/ticket_price_top.v:213]
+WARNING: [Synth 8-6014] Unused sequential element ticket_pulse_reg was removed.  [D:/FPGA26FALL/ticket_price/src/ticket_price_top.v:219]
+WARNING: [Synth 8-6014] Unused sequential element refund_pulse_reg was removed.  [D:/FPGA26FALL/ticket_price/src/ticket_price_top.v:220]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1526.738 ; gain = 574.082
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1526.523 ; gain = 573.633
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1526.738 ; gain = 574.082
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1526.523 ; gain = 573.633
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1526.738 ; gain = 574.082
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1526.523 ; gain = 573.633
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.017 . Memory (MB): peak = 1526.738 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.019 . Memory (MB): peak = 1526.523 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [C:/Users/Lenovo/Desktop/ticket_price/constr/ticket_price_top.xdc]
-Finished Parsing XDC File [C:/Users/Lenovo/Desktop/ticket_price/constr/ticket_price_top.xdc]
-INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/Lenovo/Desktop/ticket_price/constr/ticket_price_top.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/ticket_price_top_propImpl.xdc].
+Parsing XDC File [D:/FPGA26FALL/ticket_price/constr/ticket_price_top.xdc]
+Finished Parsing XDC File [D:/FPGA26FALL/ticket_price/constr/ticket_price_top.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [D:/FPGA26FALL/ticket_price/constr/ticket_price_top.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/ticket_price_top_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/ticket_price_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1630.562 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1553.879 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 1630.562 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 1553.879 ; gain = 0.000
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1553.879 ; gain = 600.988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a75tfgg484-2
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1553.879 ; gain = 600.988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 1553.879 ; gain = 600.988
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'key_filter'
 ---------------------------------------------------------------------------------------------------
@@ -116,14 +116,14 @@ INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'key_f
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'key_filter'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 1553.879 ; gain = 600.988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input   26 Bit       Adders := 1     
+	   2 Input   32 Bit       Adders := 1     
 	   2 Input   24 Bit       Adders := 1     
 	   2 Input   20 Bit       Adders := 4     
 	   2 Input   17 Bit       Adders := 1     
@@ -134,10 +134,9 @@ Detailed RTL Component Info :
 	   2 Input    9 Bit       Adders := 3     
 	   2 Input    8 Bit       Adders := 1     
 	   2 Input    6 Bit       Adders := 2     
-	   2 Input    5 Bit       Adders := 2     
+	   2 Input    5 Bit       Adders := 3     
 	   2 Input    4 Bit       Adders := 129   
 	   2 Input    3 Bit       Adders := 1     
-	   2 Input    2 Bit       Adders := 1     
 +---Registers : 
 	               32 Bit    Registers := 7     
 	               17 Bit    Registers := 1     
@@ -145,44 +144,43 @@ Detailed RTL Component Info :
 	               10 Bit    Registers := 4     
 	                7 Bit    Registers := 2     
 	                6 Bit    Registers := 1     
-	                5 Bit    Registers := 1     
-	                4 Bit    Registers := 5     
+	                5 Bit    Registers := 2     
+	                4 Bit    Registers := 6     
 	                3 Bit    Registers := 2     
-	                2 Bit    Registers := 5     
+	                2 Bit    Registers := 4     
 	                1 Bit    Registers := 11    
 +---ROMs : 
 	                    ROMs := 1     
 +---Muxes : 
-	   2 Input   32 Bit        Muxes := 9     
+	   2 Input   32 Bit        Muxes := 14    
 	   4 Input   32 Bit        Muxes := 4     
 	  16 Input   32 Bit        Muxes := 1     
 	   2 Input   24 Bit        Muxes := 2     
 	   2 Input   16 Bit        Muxes := 1     
 	  16 Input   10 Bit        Muxes := 4     
 	   8 Input    8 Bit        Muxes := 1     
-	   2 Input    7 Bit        Muxes := 4     
+	   2 Input    7 Bit        Muxes := 3     
 	   2 Input    6 Bit        Muxes := 4     
 	   5 Input    6 Bit        Muxes := 1     
 	  16 Input    6 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 4     
 	  16 Input    5 Bit        Muxes := 1     
-	   2 Input    5 Bit        Muxes := 2     
 	   5 Input    5 Bit        Muxes := 1     
 	   2 Input    4 Bit        Muxes := 96    
 	  16 Input    4 Bit        Muxes := 2     
-	   3 Input    4 Bit        Muxes := 1     
 	   4 Input    4 Bit        Muxes := 1     
 	   2 Input    3 Bit        Muxes := 1     
 	  16 Input    3 Bit        Muxes := 1     
 	   4 Input    3 Bit        Muxes := 1     
 	   4 Input    2 Bit        Muxes := 4     
-	   2 Input    2 Bit        Muxes := 14    
-	   2 Input    1 Bit        Muxes := 25    
+	   2 Input    2 Bit        Muxes := 13    
+	   2 Input    1 Bit        Muxes := 23    
 	   4 Input    1 Bit        Muxes := 8     
 	  33 Input    1 Bit        Muxes := 1     
 	  31 Input    1 Bit        Muxes := 1     
-	  30 Input    1 Bit        Muxes := 1     
+	  32 Input    1 Bit        Muxes := 1     
 	  19 Input    1 Bit        Muxes := 1     
-	  16 Input    1 Bit        Muxes := 12    
+	  16 Input    1 Bit        Muxes := 10    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -200,7 +198,7 @@ Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1553.879 ; gain = 600.988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
@@ -211,11 +209,12 @@ ROM: Preliminary Mapping Report
 |Module Name       | RTL Object           | Depth x Width | Implemented As | 
 +------------------+----------------------+---------------+----------------+
 |station_mapper    | global_id            | 64x5          | LUT            | 
+|station_mapper    | global_id            | 64x7          | LUT            | 
 |triangle_base_rom | base                 | 128x13        | LUT            | 
 |station_mapper    | global_id            | 32x6          | LUT            | 
 |station_mapper    | global_id            | 32x7          | LUT            | 
-|station_mapper    | global_id            | 32x7          | LUT            | 
 |station_mapper    | global_id            | 64x5          | LUT            | 
+|station_mapper    | global_id            | 64x7          | LUT            | 
 |distance_lookup   | u_triangle_base/base | 128x13        | LUT            | 
 |distance_lookup   | address_reg_reg      | 8192x17       | Block RAM      | 
 +------------------+----------------------+---------------+----------------+
@@ -227,19 +226,19 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:20 ; elapsed = 00:00:23 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:24 . Memory (MB): peak = 1553.879 ; gain = 600.988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:26 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Timing Optimization : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 1632.312 ; gain = 679.422
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Technology Mapping : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 1632.312 ; gain = 679.422
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -257,37 +256,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished IO Insertion : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 1633.148 ; gain = 680.258
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 1633.148 ; gain = 680.258
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 1633.148 ; gain = 680.258
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 1633.148 ; gain = 680.258
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 1633.160 ; gain = 680.270
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 1633.160 ; gain = 680.270
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -304,45 +303,45 @@ Report Cell Usage:
 |      |Cell     |Count |
 +------+---------+------+
 |1     |BUFG     |     1|
-|2     |CARRY4   |    64|
+|2     |CARRY4   |    65|
 |3     |LUT1     |    10|
-|4     |LUT2     |   126|
-|5     |LUT3     |    61|
-|6     |LUT4     |   142|
-|7     |LUT5     |   178|
-|8     |LUT6     |   277|
-|9     |MUXF7    |     7|
+|4     |LUT2     |   125|
+|5     |LUT3     |    86|
+|6     |LUT4     |   140|
+|7     |LUT5     |   186|
+|8     |LUT6     |   297|
+|9     |MUXF7    |     2|
 |10    |RAMB18E1 |     1|
 |11    |RAMB36E1 |     4|
-|15    |FDCE     |   147|
+|15    |FDCE     |   150|
 |16    |FDPE     |     8|
-|17    |FDRE     |   107|
-|18    |FDSE     |     3|
+|17    |FDRE     |   116|
+|18    |FDSE     |     4|
 |19    |IBUF     |     9|
 |20    |OBUF     |    20|
 +------+---------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 1633.160 ; gain = 680.270
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:28 . Memory (MB): peak = 1630.562 ; gain = 574.082
-Synthesis Optimization Complete : Time (s): cpu = 00:00:27 ; elapsed = 00:00:30 . Memory (MB): peak = 1630.562 ; gain = 677.906
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:29 . Memory (MB): peak = 1633.160 ; gain = 652.914
+Synthesis Optimization Complete : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 1633.160 ; gain = 680.270
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 1634.828 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 76 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.011 . Memory (MB): peak = 1642.367 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 72 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1638.559 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1646.012 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Synth Design complete | Checksum: 64a1ad59
+Synth Design complete | Checksum: 9769aae7
 INFO: [Common 17-83] Releasing license: Synthesis
 45 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:31 ; elapsed = 00:00:35 . Memory (MB): peak = 1638.559 ; gain = 1102.324
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1638.559 ; gain = 0.000
-INFO: [Common 17-1381] The checkpoint 'C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/synth_1/ticket_price_top.dcp' has been generated.
+synth_design: Time (s): cpu = 00:00:31 ; elapsed = 00:00:36 . Memory (MB): peak = 1646.012 ; gain = 1110.371
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1646.012 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'D:/FPGA26FALL/ticket_price/ticket_price.runs/synth_1/ticket_price_top.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file ticket_price_top_utilization_synth.rpt -pb ticket_price_top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Sat Aug 29 12:02:14 2026...
+INFO: [Common 17-206] Exiting Vivado at Sat Aug 29 16:02:37 2026...

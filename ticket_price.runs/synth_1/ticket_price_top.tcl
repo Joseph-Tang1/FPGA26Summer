@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/synth_1/ticket_price_top.tcl"
+  variable script "D:/FPGA26FALL/ticket_price/ticket_price.runs/synth_1/ticket_price_top.tcl"
   variable category "vivado_synth"
 }
 
@@ -62,25 +62,25 @@ create_project -in_memory -part xc7a75tfgg484-2
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir C:/Users/Lenovo/Desktop/ticket_price/ticket_price.cache/wt [current_project]
-set_property parent.project_path C:/Users/Lenovo/Desktop/ticket_price/ticket_price.xpr [current_project]
+set_property webtalk.parent_dir D:/FPGA26FALL/ticket_price/ticket_price.cache/wt [current_project]
+set_property parent.project_path D:/FPGA26FALL/ticket_price/ticket_price.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
-set_property ip_output_repo c:/Users/Lenovo/Desktop/ticket_price/ticket_price.cache/ip [current_project]
+set_property ip_output_repo d:/FPGA26FALL/ticket_price/ticket_price.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_mem C:/Users/Lenovo/Desktop/ticket_price/data/distance_rom.mem
+read_mem D:/FPGA26FALL/ticket_price/data/distance_rom.mem
 read_verilog -library xil_defaultlib {
-  C:/Users/Lenovo/Desktop/ticket_price/src/binary_to_bcd.v
-  C:/Users/Lenovo/Desktop/ticket_price/src/blink_controller.v
-  C:/Users/Lenovo/Desktop/ticket_price/src/distance_lookup.v
-  C:/Users/Lenovo/Desktop/ticket_price/src/fare_calculator.v
-  C:/Users/Lenovo/Desktop/ticket_price/src/key_filter.v
-  C:/Users/Lenovo/Desktop/ticket_price/src/seven_seg_display.v
-  C:/Users/Lenovo/Desktop/ticket_price/src/station_mapper.v
-  C:/Users/Lenovo/Desktop/ticket_price/src/triangle_base_rom.v
-  C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v
+  D:/FPGA26FALL/ticket_price/src/binary_to_bcd.v
+  D:/FPGA26FALL/ticket_price/src/blink_controller.v
+  D:/FPGA26FALL/ticket_price/src/distance_lookup.v
+  D:/FPGA26FALL/ticket_price/src/fare_calculator.v
+  D:/FPGA26FALL/ticket_price/src/key_filter.v
+  D:/FPGA26FALL/ticket_price/src/seven_seg_display.v
+  D:/FPGA26FALL/ticket_price/src/station_mapper.v
+  D:/FPGA26FALL/ticket_price/src/triangle_base_rom.v
+  D:/FPGA26FALL/ticket_price/src/ticket_price_top.v
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -91,12 +91,12 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/Users/Lenovo/Desktop/ticket_price/constr/ticket_price_top.xdc
-set_property used_in_implementation false [get_files C:/Users/Lenovo/Desktop/ticket_price/constr/ticket_price_top.xdc]
+read_xdc D:/FPGA26FALL/ticket_price/constr/ticket_price_top.xdc
+set_property used_in_implementation false [get_files D:/FPGA26FALL/ticket_price/constr/ticket_price_top.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 
-read_checkpoint -auto_incremental -incremental C:/Users/Lenovo/Desktop/ticket_price/ticket_price.srcs/utils_1/imports/synth_1/ticket_price_top.dcp
+read_checkpoint -auto_incremental -incremental D:/FPGA26FALL/ticket_price/ticket_price.srcs/utils_1/imports/synth_1/ticket_price_top.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

@@ -9,6 +9,7 @@ module tb_ticket_price_top;
     localparam [3:0] ORIGIN_STATION       = 4'd4;
     localparam [3:0] ORIGIN_STATION_BLINK = 4'd5;
     localparam [3:0] DEST_LINE            = 4'd6;
+    localparam [3:0] DEST_LINE_BLINK      = 4'd7;
     localparam [3:0] DEST_STATION         = 4'd8;
     localparam [3:0] DEST_STATION_BLINK   = 4'd9;
     localparam [3:0] TICKET_COUNT         = 4'd11;
@@ -26,6 +27,7 @@ module tb_ticket_price_top;
     reg sw2;
     reg sw3;
     wire [3:0] led;
+    wire [3:0] logical_led_observed;
     wire [7:0] seg;
     wire [7:0] sel;
 
@@ -36,23 +38,46 @@ module tb_ticket_price_top;
     wire [6:0] map_global;
     wire map_valid;
     wire [5:0] map_count;
+    reg lookup_query;
+    reg [6:0] lookup_start;
+    reg [6:0] lookup_end;
+    wire [16:0] lookup_distance;
+    wire lookup_valid;
+    reg blink_count_test_start;
+    reg [3:0] blink_count_test_flashes;
+    wire [3:0] blink_count_test_active;
+    wire blink_count_test_busy;
+    wire blink_count_test_done;
+    reg [16:0] expected_distance_rom [0:5355];
     reg [6:0] saved_interchange_id;
     integer ticket_seen;
     integer refund_seen;
-    integer line1_flash_count;
-    integer line2_flash_count;
-    integer line3_flash_count;
-    integer line4_flash_count;
+    integer line1_digit_flash_count;
+    integer line2_digit_flash_count;
+    integer line3_digit_flash_count;
+    integer line4_digit_flash_count;
     integer all_flash_count;
     integer destination_all_flash_count;
+    integer exhaustive_index;
+    integer exhaustive_high;
+    integer exhaustive_low;
     reg [3:0] previous_led;
+    reg [3:0] previous_blink_mask;
+    integer vend_hold_count;
+    integer simulation_cycle;
+    integer ticket_led_flash_count;
+    integer last_ticket_flash_cycle;
+    integer ticket_flash_interval_error;
+
+    assign logical_led_observed = ~led;
 
     ticket_price_top #(
         .DEBOUNCE_CYCLES(2),
         .SCAN_DIV(2),
         .BLINK_HALF_CYCLES(2),
         .EVENT_HOLD_CYCLES(50),
-        .LED_ACTIVE_LOW(0),
+        .VEND_HOLD_CYCLES(100),
+        .LED_ACTIVE_LOW(1),
         .DISTANCE_ROM_FILE("distance_rom.mem")
     ) dut (
         .clk(clk),
@@ -82,31 +107,79 @@ module tb_ticket_price_top;
         .station_count(map_count)
     );
 
+    distance_lookup #(.ROM_FILE("distance_rom.mem")) u_lookup_check (
+        .clk(clk),
+        .query_valid(lookup_query),
+        .start_station(lookup_start),
+        .end_station(lookup_end),
+        .distance_m(lookup_distance),
+        .result_valid(lookup_valid)
+    );
+
+    blink_controller #(.HALF_PERIOD_CYCLES(2)) u_blink_count_check (
+        .clk(clk),
+        .rst_n(sw4_rst_n),
+        .start(blink_count_test_start),
+        .mask(4'b1111),
+        .flash_count(blink_count_test_flashes),
+        .active_mask(blink_count_test_active),
+        .busy(blink_count_test_busy),
+        .done(blink_count_test_done)
+    );
+
     initial begin
         clk = 1'b0;
         forever #10 clk = ~clk;
     end
 
     always @(posedge clk) begin
-        previous_led <= led;
+        simulation_cycle <= simulation_cycle + 1;
+        previous_led <= logical_led_observed;
+        previous_blink_mask <= dut.blink_active_mask;
         if (dut.ticket_pulse)
             ticket_seen <= ticket_seen + 1;
         if (dut.refund_pulse)
             refund_seen <= refund_seen + 1;
-        if ((dut.state == ORIGIN_LINE_BLINK) && led[0] && !previous_led[0])
-            line1_flash_count <= line1_flash_count + 1;
-        if ((dut.state == ORIGIN_LINE_BLINK) && led[1] && !previous_led[1])
-            line2_flash_count <= line2_flash_count + 1;
-        if ((dut.state == ORIGIN_LINE_BLINK) && led[2] && !previous_led[2])
-            line3_flash_count <= line3_flash_count + 1;
-        if ((dut.state == ORIGIN_LINE_BLINK) && led[3] && !previous_led[3])
-            line4_flash_count <= line4_flash_count + 1;
-        if ((dut.state == ORIGIN_STATION_BLINK) && (led == 4'b1111) &&
+        if (dut.state != VEND)
+            last_ticket_flash_cycle <= -1;
+        if ((dut.state == ORIGIN_LINE_BLINK) && dut.blink_active_mask[0] && !previous_blink_mask[0])
+            line1_digit_flash_count <= line1_digit_flash_count + 1;
+        if ((dut.state == ORIGIN_LINE_BLINK) && dut.blink_active_mask[1] && !previous_blink_mask[1])
+            line2_digit_flash_count <= line2_digit_flash_count + 1;
+        if ((dut.state == ORIGIN_LINE_BLINK) && dut.blink_active_mask[2] && !previous_blink_mask[2])
+            line3_digit_flash_count <= line3_digit_flash_count + 1;
+        if ((dut.state == ORIGIN_LINE_BLINK) && dut.blink_active_mask[3] && !previous_blink_mask[3])
+            line4_digit_flash_count <= line4_digit_flash_count + 1;
+        if ((dut.state == ORIGIN_LINE_BLINK) || (dut.state == DEST_LINE_BLINK)) begin
+            if (logical_led_observed !== 4'b0000) begin
+                $display("TEST_FAIL: LEDs must stay off while a line number flashes");
+                $finish;
+            end
+            case (dut.selected_line)
+                3'd1: if (dut.display_digits[31:16] !== (dut.blink_active_mask[0] ? 16'h1fff : 16'hffff)) begin
+                    $display("TEST_FAIL: line 1 digit did not follow blink phase"); $finish; end
+                3'd2: if (dut.display_digits[31:16] !== (dut.blink_active_mask[1] ? 16'hf2ff : 16'hffff)) begin
+                    $display("TEST_FAIL: line 2 digit did not follow blink phase"); $finish; end
+                3'd3: if (dut.display_digits[31:16] !== (dut.blink_active_mask[2] ? 16'hff3f : 16'hffff)) begin
+                    $display("TEST_FAIL: line 3 digit did not follow blink phase"); $finish; end
+                3'd4: if (dut.display_digits[31:16] !== (dut.blink_active_mask[3] ? 16'hfff4 : 16'hffff)) begin
+                    $display("TEST_FAIL: line 4 digit did not follow blink phase"); $finish; end
+            endcase
+        end
+        if ((dut.state == ORIGIN_STATION_BLINK) && (logical_led_observed == 4'b1111) &&
             (previous_led != 4'b1111))
             all_flash_count <= all_flash_count + 1;
-        if ((dut.state == DEST_STATION_BLINK) && (led == 4'b1111) &&
+        if ((dut.state == DEST_STATION_BLINK) && (logical_led_observed == 4'b1111) &&
             (previous_led != 4'b1111))
             destination_all_flash_count <= destination_all_flash_count + 1;
+        if ((dut.state == VEND) && (logical_led_observed == 4'b1111) &&
+            (previous_led != 4'b1111)) begin
+            ticket_led_flash_count <= ticket_led_flash_count + 1;
+            if ((last_ticket_flash_cycle >= 0) &&
+                ((simulation_cycle - last_ticket_flash_cycle) != 4))
+                ticket_flash_interval_error <= 1;
+            last_ticket_flash_cycle <= simulation_cycle;
+        end
     end
 
     task press_key1;
@@ -219,6 +292,83 @@ module tb_ticket_price_top;
         end
     endtask
 
+    task check_lookup_pair;
+        input [6:0] start_station;
+        input [6:0] end_station;
+        integer high_index;
+        integer low_index;
+        integer rom_address;
+        reg [16:0] expected_distance;
+        begin
+            if (start_station >= end_station) begin
+                high_index = start_station;
+                low_index = end_station;
+            end else begin
+                high_index = end_station;
+                low_index = start_station;
+            end
+            if (start_station == end_station)
+                expected_distance = 17'd0;
+            else begin
+                rom_address = high_index * (high_index - 1) / 2 + low_index;
+                expected_distance = expected_distance_rom[rom_address];
+            end
+
+            lookup_start = start_station;
+            lookup_end = end_station;
+            lookup_query = 1'b1;
+            @(posedge clk);
+            #1 lookup_query = 1'b0;
+            @(posedge clk);
+            #1;
+            if (!lookup_valid || (lookup_distance !== expected_distance)) begin
+                $display("TEST_FAIL: lookup pair (%0d,%0d), expected %0d, got %0d, valid=%b",
+                         start_station, end_station, expected_distance,
+                         lookup_distance, lookup_valid);
+                $finish;
+            end
+        end
+    endtask
+
+    task check_requested_flash_count;
+        input [3:0] requested;
+        integer seen;
+        integer cycles;
+        time last_rise_time;
+        reg previous_active;
+        begin
+            blink_count_test_flashes = requested;
+            blink_count_test_start = 1'b1;
+            @(posedge clk);
+            #1 blink_count_test_start = 1'b0;
+            seen = (blink_count_test_active == 4'b1111) ? 1 : 0;
+            cycles = 0;
+            // The first active level is sampled after its edge. Start interval
+            // timing from the next fully observed rising edge.
+            last_rise_time = 0;
+            previous_active = (blink_count_test_active == 4'b1111);
+            while (blink_count_test_busy && (cycles < 100)) begin
+                @(posedge clk);
+                #1 cycles = cycles + 1;
+                if ((blink_count_test_active == 4'b1111) && !previous_active) begin
+                    seen = seen + 1;
+                    if ((last_rise_time != 0) && (($time - last_rise_time) != 80)) begin
+                        $display("TEST_FAIL: requested flash interval changed for count %0d, delta=%0t",
+                                 requested, $time - last_rise_time);
+                        $finish;
+                    end
+                    last_rise_time = $time;
+                end
+                previous_active = (blink_count_test_active == 4'b1111);
+            end
+            if ((seen != requested) || blink_count_test_busy) begin
+                $display("TEST_FAIL: requested %0d flashes, observed %0d", requested, seen);
+                $finish;
+            end
+            @(posedge clk);
+        end
+    endtask
+
     initial begin
         sw4_rst_n = 1'b0;
         key1_n = 1'b1;
@@ -231,16 +381,38 @@ module tb_ticket_price_top;
         boundary_distance = 17'd0;
         map_line = 3'd0;
         map_index = 6'd0;
+        lookup_query = 1'b0;
+        lookup_start = 7'd0;
+        lookup_end = 7'd0;
+        blink_count_test_start = 1'b0;
+        blink_count_test_flashes = 4'd1;
+        $readmemh("distance_rom.mem", expected_distance_rom);
         saved_interchange_id = 7'd0;
         ticket_seen = 0;
         refund_seen = 0;
-        line1_flash_count = 0;
-        line2_flash_count = 0;
-        line3_flash_count = 0;
-        line4_flash_count = 0;
+        line1_digit_flash_count = 0;
+        line2_digit_flash_count = 0;
+        line3_digit_flash_count = 0;
+        line4_digit_flash_count = 0;
         all_flash_count = 0;
         destination_all_flash_count = 0;
         previous_led = 4'b0000;
+        previous_blink_mask = 4'b0000;
+        vend_hold_count = 0;
+        simulation_cycle = 0;
+        ticket_led_flash_count = 0;
+        last_ticket_flash_cycle = -1;
+        ticket_flash_interval_error = 0;
+
+        // The independent Python checker proves the ROM values. This loop
+        // proves the FPGA triangular-address and read timing for all 5460
+        // unordered station pairs, including the 104 same-station cases.
+        repeat (3) @(posedge clk);
+        for (exhaustive_index = 0; exhaustive_index < 104; exhaustive_index = exhaustive_index + 1)
+            check_lookup_pair(exhaustive_index[6:0], exhaustive_index[6:0]);
+        for (exhaustive_high = 1; exhaustive_high < 104; exhaustive_high = exhaustive_high + 1)
+            for (exhaustive_low = 0; exhaustive_low < exhaustive_high; exhaustive_low = exhaustive_low + 1)
+                check_lookup_pair(exhaustive_high[6:0], exhaustive_low[6:0]);
 
         check_fare(17'd4000, 5'd2);
         check_fare(17'd4001, 5'd3);
@@ -264,7 +436,7 @@ module tb_ticket_price_top;
         // All four line selectors and all seven interchange aliases are mapped.
         check_line_count(3'd1, 6'd32);
         check_line_count(3'd2, 6'd30);
-        check_line_count(3'd3, 6'd29);
+        check_line_count(3'd3, 6'd31);
         check_line_count(3'd4, 6'd18);
         save_station_id(3'd1, 6'd8);   check_same_station_id(3'd3, 6'd10); // 南京站
         save_station_id(3'd1, 6'd13);  check_same_station_id(3'd2, 6'd15); // 新街口
@@ -278,6 +450,11 @@ module tb_ticket_price_top;
         sw4_rst_n = 1'b1;
         repeat (6) @(posedge clk);
         wait_state(MODE_SELECT);
+
+        // The generic controller must honor every supported ticket count with
+        // the same rising-edge interval.
+        for (exhaustive_index = 1; exhaustive_index <= 9; exhaustive_index = exhaustive_index + 1)
+            check_requested_flash_count(exhaustive_index[3:0]);
 
         // Mode 1: select a known fare of 4 yuan and two tickets.
         press_key1;
@@ -313,8 +490,9 @@ module tb_ticket_price_top;
         press_key3;
         press_key1;
         wait_state(PAY);
-        if ((dut.ticket_count !== 4'd2) || (dut.total_due !== 10'd8)) begin
-            $display("TEST_FAIL: ticket count or total due");
+        if ((dut.ticket_count !== 4'd2) || (dut.total_due !== 10'd8) ||
+            (dut.display_digits !== 32'h008ff000)) begin
+            $display("TEST_FAIL: ticket count, total due or initial paid display");
             $finish;
         end
 
@@ -327,26 +505,40 @@ module tb_ticket_price_top;
         end
         {sw3, sw2, sw1} = 3'b001;
         press_key1;
-        if ((dut.state !== PAY) || (dut.paid_amount !== 10'd1)) begin
-            $display("TEST_FAIL: one-yuan payment");
+        if ((dut.state !== PAY) || (dut.paid_amount !== 10'd1) ||
+            (dut.display_digits !== 32'h008ff001)) begin
+            $display("TEST_FAIL: one-yuan payment/paid display");
             $finish;
         end
         {sw3, sw2, sw1} = 3'b010;
         press_key1;
-        if ((dut.state !== PAY) || (dut.paid_amount !== 10'd6)) begin
-            $display("TEST_FAIL: five-yuan payment");
+        if ((dut.state !== PAY) || (dut.paid_amount !== 10'd6) ||
+            (dut.display_digits !== 32'h008ff006)) begin
+            $display("TEST_FAIL: five-yuan payment/paid display");
             $finish;
         end
         {sw3, sw2, sw1} = 3'b011;
         press_key1;
         wait_state(VEND);
         if ((dut.change_amount !== 10'd8) || (ticket_seen !== 1) ||
-            (led !== 4'b1111) || (dut.display_digits[11:0] !== 12'h008)) begin
+            (dut.display_digits !== 32'hfffff008)) begin
             $display("TEST_FAIL: automatic vend/change, change=%0d tickets=%0d",
                      dut.change_amount, ticket_seen);
             $finish;
         end
-        wait_state(MODE_SELECT);
+        while ((dut.state == VEND) && (vend_hold_count < 200)) begin
+            @(posedge clk);
+            vend_hold_count = vend_hold_count + 1;
+        end
+        if ((dut.state !== MODE_SELECT) || (vend_hold_count < 70)) begin
+            $display("TEST_FAIL: change-only display did not remain long enough");
+            $finish;
+        end
+        if ((ticket_led_flash_count !== 2) || ticket_flash_interval_error) begin
+            $display("TEST_FAIL: two-ticket LED flash count/interval, count=%0d interval_error=%0d",
+                     ticket_led_flash_count, ticket_flash_interval_error);
+            $finish;
+        end
         if (ticket_seen !== 1) begin
             $display("TEST_FAIL: vend pulse was generated more than once");
             $finish;
@@ -369,7 +561,7 @@ module tb_ticket_price_top;
         press_key4;
         wait_state(REFUND);
         if ((dut.refund_amount !== 10'd20) || (refund_seen !== 1) ||
-            (ticket_seen !== 1) || (led !== 4'b1001) ||
+            (ticket_seen !== 1) || (logical_led_observed !== 4'b1001) ||
             (dut.display_digits[11:0] !== 12'h020)) begin
             $display("TEST_FAIL: one-shot cancellation refund");
             $finish;
@@ -380,7 +572,8 @@ module tb_ticket_price_top;
             $finish;
         end
 
-        // Every line-selection key must select its matching line and LED.
+        // Every line-selection key must flash its matching seven-segment digit,
+        // while all four LEDs remain off.
         press_key2;
         wait_state(ORIGIN_LINE);
         if (dut.display_digits[31:16] !== 16'h1234) begin
@@ -389,32 +582,32 @@ module tb_ticket_price_top;
         end
         press_key1;
         wait_state(ORIGIN_STATION);
-        if ((dut.selected_line !== 3'd1) || (line1_flash_count !== 2)) begin
-            $display("TEST_FAIL: KEY1/line1/LED1 selection");
+        if ((dut.selected_line !== 3'd1) || (line1_digit_flash_count !== 2)) begin
+            $display("TEST_FAIL: KEY1/line1 digit selection");
             $finish;
         end
         press_key2;
         wait_state(ORIGIN_LINE);
         press_key2;
         wait_state(ORIGIN_STATION);
-        if ((dut.selected_line !== 3'd2) || (line2_flash_count !== 2)) begin
-            $display("TEST_FAIL: KEY2/line2/LED2 selection");
+        if ((dut.selected_line !== 3'd2) || (line2_digit_flash_count !== 2)) begin
+            $display("TEST_FAIL: KEY2/line2 digit selection");
             $finish;
         end
         press_key2;
         wait_state(ORIGIN_LINE);
         press_key3;
         wait_state(ORIGIN_STATION);
-        if ((dut.selected_line !== 3'd3) || (line3_flash_count !== 2)) begin
-            $display("TEST_FAIL: KEY3/line3/LED3 selection");
+        if ((dut.selected_line !== 3'd3) || (line3_digit_flash_count !== 2)) begin
+            $display("TEST_FAIL: KEY3/line3 digit selection");
             $finish;
         end
         press_key2;
         wait_state(ORIGIN_LINE);
         press_key4;
         wait_state(ORIGIN_STATION);
-        if ((dut.selected_line !== 3'd4) || (line4_flash_count !== 2)) begin
-            $display("TEST_FAIL: KEY4/line4/LED4 selection");
+        if ((dut.selected_line !== 3'd4) || (line4_digit_flash_count !== 2)) begin
+            $display("TEST_FAIL: KEY4/line4 digit selection");
             $finish;
         end
         press_key2;
@@ -424,8 +617,8 @@ module tb_ticket_price_top;
         {sw3, sw2, sw1} = 3'b000;
         press_key1;
         wait_state(ORIGIN_STATION);
-        if (line1_flash_count !== 4) begin
-            $display("TEST_FAIL: selected line LED flashed %0d times", line1_flash_count);
+        if (line1_digit_flash_count !== 4) begin
+            $display("TEST_FAIL: selected line digit flashed %0d times", line1_digit_flash_count);
             $finish;
         end
         press_key1;
@@ -461,6 +654,10 @@ module tb_ticket_price_top;
             $finish;
         end
         wait_state(MODE_SELECT);
+        if ((ticket_led_flash_count !== 3) || ticket_flash_interval_error) begin
+            $display("TEST_FAIL: one-ticket LED flash count/interval after second vend");
+            $finish;
+        end
 
         // Full cross-line query: 113 (Xinjiekou) to 401 (Longjiang).
         // The shortest path transfers at Gulou: 2009 m + 3677 m = 5686 m.
@@ -507,7 +704,7 @@ module tb_ticket_price_top;
         press_key2;
         wait_state(MODE_SELECT);
 
-        $display("TEST_PASS: four-line keys/LEDs, station navigation, interchanges, same-line and cross-line shortest distance, fare/display boundaries, all payment denominations, ticket count, one-shot vend/change and cancellation refund are correct.");
+        $display("TEST_PASS: all 5460 station lookups, active-low LEDs, isolated line-digit double flashes, 31-station extended line 3, navigation, fares, total/paid display, change-only hold, ticket-count LED flashes with fixed interval, and cancellation refund are correct.");
         $finish;
     end
 

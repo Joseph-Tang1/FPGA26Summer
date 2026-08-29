@@ -1,20 +1,20 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/binary_to_bcd.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/binary_to_bcd.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module binary_to_bcd
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/blink_controller.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/blink_controller.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module blink_controller
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/distance_lookup.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/distance_lookup.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module distance_lookup
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/fare_calculator.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/fare_calculator.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fare_calculator
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/key_filter.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/key_filter.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module key_filter
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/seven_seg_display.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/seven_seg_display.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module seven_seg_display
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/station_mapper.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/station_mapper.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module station_mapper
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/ticket_price_top.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/ticket_price_top.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module ticket_price_top
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/src/triangle_base_rom.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/triangle_base_rom.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module triangle_base_rom
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Lenovo/Desktop/ticket_price/sim/tb_ticket_price_top.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/sim/tb_ticket_price_top.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module tb_ticket_price_top

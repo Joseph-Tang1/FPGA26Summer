@@ -273,9 +273,8 @@ def main() -> None:
         json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
 
-    assert len(id_to_station) == 102
-    assert pair_count == 5151
-    assert station_to_id["新街口"] == station_to_id["新街口"]
+    if not id_to_station or pair_count != len(id_to_station) * (len(id_to_station) - 1) // 2:
+        raise AssertionError("generated station or pair count is inconsistent")
     print(json.dumps(metadata, ensure_ascii=False))
 
 

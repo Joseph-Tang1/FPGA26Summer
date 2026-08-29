@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a75tfgg484-2" LaunchTime="1787976084" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/ticket_price_top.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7a75tfgg484-2" LaunchTime="1787990506" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/ticket_price_top.dcp">
   <File Type="PA-TCL" Name="ticket_price_top.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="ticket_price_top_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="ticket_price_top_reports.tcl"/>
   <File Type="RDS-RDS" Name="ticket_price_top.vds"/>
   <File Type="RDS-UTIL" Name="ticket_price_top_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="ticket_price_top_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="ticket_price_top.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="ticket_price_top_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="ticket_price_top_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/src/binary_to_bcd.v">

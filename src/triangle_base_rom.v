@@ -109,6 +109,8 @@ module triangle_base_rom (
             7'd99: base = 13'd4851;
             7'd100: base = 13'd4950;
             7'd101: base = 13'd5050;
+            7'd102: base = 13'd5151;
+            7'd103: base = 13'd5253;
             default: base = 13'd0;
         endcase
     end

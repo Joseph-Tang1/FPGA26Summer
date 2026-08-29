@@ -3,12 +3,12 @@
 # SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
 # IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
 # SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-# Start of session at: Sat Aug 29 12:01:27 2026
-# Process ID: 36064
-# Current directory: C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/synth_1
+# Start of session at: Sat Aug 29 16:01:49 2026
+# Process ID: 32384
+# Current directory: D:/FPGA26FALL/ticket_price/ticket_price.runs/synth_1
 # Command line: vivado.exe -log ticket_price_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source ticket_price_top.tcl
-# Log file: C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/synth_1/ticket_price_top.vds
-# Journal file: C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/synth_1\vivado.jou
+# Log file: D:/FPGA26FALL/ticket_price/ticket_price.runs/synth_1/ticket_price_top.vds
+# Journal file: D:/FPGA26FALL/ticket_price/ticket_price.runs/synth_1\vivado.jou
 # Running On        :LAPTOP-J02AFG1P
 # Platform          :Windows Server 2016 or Windows 10
 # Operating System  :26100
@@ -17,8 +17,8 @@
 # CPU Physical cores:14
 # CPU Logical cores :20
 # Host memory       :16962 MB
-# Swap memory       :2684 MB
-# Total Virtual     :19646 MB
-# Available Virtual :4603 MB
+# Swap memory       :4703 MB
+# Total Virtual     :21665 MB
+# Available Virtual :3369 MB
 #-----------------------------------------------------------
 source ticket_price_top.tcl -notrace

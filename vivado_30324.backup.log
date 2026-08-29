@@ -1,0 +1,129 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Sat Aug 29 15:59:49 2026
+# Process ID: 30324
+# Current directory: D:/FPGA26FALL/ticket_price
+# Command line: vivado.exe -mode batch -source scripts\run_sim.tcl
+# Log file: D:/FPGA26FALL/ticket_price/vivado.log
+# Journal file: D:/FPGA26FALL/ticket_price\vivado.jou
+# Running On        :LAPTOP-J02AFG1P
+# Platform          :Windows Server 2016 or Windows 10
+# Operating System  :26100
+# Processor Detail  :12th Gen Intel(R) Core(TM) i9-12900H
+# CPU Frequency     :2918 MHz
+# CPU Physical cores:14
+# CPU Logical cores :20
+# Host memory       :16962 MB
+# Swap memory       :4703 MB
+# Total Virtual     :21665 MB
+# Available Virtual :4023 MB
+#-----------------------------------------------------------
+source {scripts\run_sim.tcl}
+# set script_dir [file normalize [file dirname [info script]]]
+# set project_dir [file normalize [file join $script_dir ..]]
+# set report_dir [file join $project_dir reports]
+# file mkdir $report_dir
+# open_project [file join $project_dir ticket_price.xpr]
+INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory 'D:/FPGA26FALL/ticket_price/ticket_price.gen/sources_1'.
+Scanning sources...
+Finished scanning sources
+open_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 533.586 ; gain = 202.242
+# set_property top tb_ticket_price_top [get_filesets sim_1]
+# launch_simulation
+Command: launch_simulation 
+INFO: [Vivado 12-12493] Simulation top is 'tb_ticket_price_top'
+WARNING: [Vivado 12-13340] Unable to auto find GCC executables from simulator install path! (path not set)
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'D:/FPGA26FALL/ticket_price/ticket_price.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-72] Using boost library from 'D:/Vivado/Vivado/2024.1/tps/boost_1_72_0'
+INFO: [SIM-utils-54] Inspecting design source files for 'tb_ticket_price_top' in fileset 'sim_1'...
+INFO: [SIM-utils-43] Exported 'D:/FPGA26FALL/ticket_price/ticket_price.sim/sim_1/behav/xsim/distance_rom.mem'
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'D:/FPGA26FALL/ticket_price/ticket_price.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -prj tb_ticket_price_top_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/binary_to_bcd.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module binary_to_bcd
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/blink_controller.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module blink_controller
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/distance_lookup.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module distance_lookup
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/fare_calculator.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fare_calculator
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/key_filter.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module key_filter
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/seven_seg_display.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module seven_seg_display
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/station_mapper.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module station_mapper
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/ticket_price_top.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ticket_price_top
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/src/triangle_base_rom.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module triangle_base_rom
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/FPGA26FALL/ticket_price/sim/tb_ticket_price_top.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_ticket_price_top
+INFO: [USF-XSim-69] 'compile' step finished in '1' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'D:/FPGA26FALL/ticket_price/ticket_price.sim/sim_1/behav/xsim'
+"xelab --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_ticket_price_top_behav xil_defaultlib.tb_ticket_price_top xil_defaultlib.glbl -log elaborate.log"
+Vivado Simulator v2024.1
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: D:/Vivado/Vivado/2024.1/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_ticket_price_top_behav xil_defaultlib.tb_ticket_price_top xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.key_filter(DEBOUNCE_CYCLES=2)
+Compiling module xil_defaultlib.blink_controller
+Compiling module xil_defaultlib.station_mapper
+Compiling module xil_defaultlib.triangle_base_rom
+Compiling module xil_defaultlib.distance_lookup
+Compiling module xil_defaultlib.fare_calculator
+Compiling module xil_defaultlib.binary_to_bcd
+Compiling module xil_defaultlib.seven_seg_display(SCAN_DIV=2)
+Compiling module xil_defaultlib.ticket_price_top(DEBOUNCE_CYCLES...
+Compiling module xil_defaultlib.tb_ticket_price_top
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot tb_ticket_price_top_behav
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'D:/FPGA26FALL/ticket_price/ticket_price.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "tb_ticket_price_top_behav -key {Behavioral:sim_1:Functional:tb_ticket_price_top} -tclbatch {tb_ticket_price_top.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Time resolution is 1 ps
+source tb_ticket_price_top.tcl
+## set curr_wave [current_wave_config]
+## if { [string length $curr_wave] == 0 } {
+##   if { [llength [get_objects]] > 0} {
+##     add_wave /
+##     set_property needs_save false [current_wave_config]
+##   } else {
+##      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+##   }
+## }
+WARNING: [Wavedata 42-489] Can't add object "/tb_ticket_price_top/expected_distance_rom" to the wave window because it has 91052 bits, which exceeds the display limit of 65536 bits.  To change the display limit, use the command "set_property display_limit <new limit> [current_wave_config]".
+## run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'tb_ticket_price_top_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:00 ; elapsed = 00:00:08 . Memory (MB): peak = 553.504 ; gain = 19.918
+# run all
+TEST_FAIL: requested flash interval changed for count 2
+$finish called at time : 218871 ns : File "D:/FPGA26FALL/ticket_price/sim/tb_ticket_price_top.v" Line 355
+# close_sim
+INFO: [Simtcl 6-16] Simulation closed
+# set simulation_log [file join $project_dir ticket_price.sim sim_1 behav xsim simulate.log]
+# if {[file exists $simulation_log]} {
+#     file copy -force $simulation_log [file join $report_dir simulation.log]
+# }
+# close_project
+# exit
+INFO: [Common 17-206] Exiting Vivado at Sat Aug 29 16:00:09 2026...

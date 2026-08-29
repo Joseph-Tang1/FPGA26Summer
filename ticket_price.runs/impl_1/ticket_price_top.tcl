@@ -1,5 +1,5 @@
 namespace eval ::optrace {
-  variable script "C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/impl_1/ticket_price_top.tcl"
+  variable script "D:/FPGA26FALL/ticket_price/ticket_price.runs/impl_1/ticket_price_top.tcl"
   variable category "vivado_impl"
 }
 
@@ -112,15 +112,15 @@ OPTRACE "create in-memory project" START { }
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir C:/Users/Lenovo/Desktop/ticket_price/ticket_price.cache/wt [current_project]
-  set_property parent.project_path C:/Users/Lenovo/Desktop/ticket_price/ticket_price.xpr [current_project]
-  set_property ip_output_repo C:/Users/Lenovo/Desktop/ticket_price/ticket_price.cache/ip [current_project]
+  set_property webtalk.parent_dir D:/FPGA26FALL/ticket_price/ticket_price.cache/wt [current_project]
+  set_property parent.project_path D:/FPGA26FALL/ticket_price/ticket_price.xpr [current_project]
+  set_property ip_output_repo D:/FPGA26FALL/ticket_price/ticket_price.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet C:/Users/Lenovo/Desktop/ticket_price/ticket_price.runs/synth_1/ticket_price_top.dcp
+  add_files -quiet D:/FPGA26FALL/ticket_price/ticket_price.runs/synth_1/ticket_price_top.dcp
 OPTRACE "read constraints: implementation" START { }
-  read_xdc C:/Users/Lenovo/Desktop/ticket_price/constr/ticket_price_top.xdc
+  read_xdc D:/FPGA26FALL/ticket_price/constr/ticket_price_top.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "read constraints: implementation_pre" START { }
 OPTRACE "read constraints: implementation_pre" END { }

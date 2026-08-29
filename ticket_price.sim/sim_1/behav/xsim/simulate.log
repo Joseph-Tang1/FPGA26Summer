@@ -1,3 +1,3 @@
 Time resolution is 1 ps
-TEST_PASS: four-line keys/LEDs, station navigation, interchanges, same-line and cross-line shortest distance, fare/display boundaries, all payment denominations, ticket count, one-shot vend/change and cancellation refund are correct.
-$finish called at time : 20170 ns : File "C:/Users/Lenovo/Desktop/ticket_price/sim/tb_ticket_price_top.v" Line 511
+TEST_PASS: all 5460 station lookups, active-low LEDs, isolated line-digit double flashes, 31-station extended line 3, navigation, fares, total/paid display, change-only hold, ticket-count LED flashes with fixed interval, and cancellation refund are correct.
+$finish called at time : 244390 ns : File "D:/FPGA26FALL/ticket_price/sim/tb_ticket_price_top.v" Line 708

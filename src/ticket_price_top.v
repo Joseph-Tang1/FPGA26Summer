@@ -5,7 +5,8 @@ module ticket_price_top #(
     parameter integer SCAN_DIV           = 50_000,
     parameter integer BLINK_HALF_CYCLES  = 12_500_000,
     parameter integer EVENT_HOLD_CYCLES  = 50_000_000,
-    parameter integer LED_ACTIVE_LOW     = 0,
+    parameter integer VEND_HOLD_CYCLES   = 150_000_000,
+    parameter integer LED_ACTIVE_LOW     = 1,
     parameter         DISTANCE_ROM_FILE  = "distance_rom.mem"
 ) (
     input  wire       clk,
@@ -59,7 +60,8 @@ module ticket_price_top #(
 
     reg        blink_start;
     reg [3:0]  blink_mask;
-    wire [3:0] blink_leds;
+    reg [3:0]  blink_flash_count;
+    wire [3:0] blink_active_mask;
     wire       blink_busy;
     wire       blink_done;
 
@@ -107,7 +109,8 @@ module ticket_price_top #(
         .rst_n(sw4_rst_n),
         .start(blink_start),
         .mask(blink_mask),
-        .leds(blink_leds),
+        .flash_count(blink_flash_count),
+        .active_mask(blink_active_mask),
         .busy(blink_busy),
         .done(blink_done)
     );
@@ -211,6 +214,7 @@ module ticket_price_top #(
             event_count        <= 32'd0;
             blink_start        <= 1'b0;
             blink_mask         <= 4'b0000;
+            blink_flash_count  <= 4'd2;
             distance_query     <= 1'b0;
             ticket_pulse       <= 1'b0;
             refund_pulse       <= 1'b0;
@@ -261,21 +265,25 @@ module ticket_price_top #(
                     if (key1_pressed) begin
                         selected_line <= 3'd1;
                         blink_mask <= 4'b0001;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= ORIGIN_LINE_BLINK;
                     end else if (key2_pressed) begin
                         selected_line <= 3'd2;
                         blink_mask <= 4'b0010;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= ORIGIN_LINE_BLINK;
                     end else if (key3_pressed) begin
                         selected_line <= 3'd3;
                         blink_mask <= 4'b0100;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= ORIGIN_LINE_BLINK;
                     end else if (key4_pressed) begin
                         selected_line <= 3'd4;
                         blink_mask <= 4'b1000;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= ORIGIN_LINE_BLINK;
                     end
@@ -302,6 +310,7 @@ module ticket_price_top #(
                     end else if (key1_pressed && mapped_valid) begin
                         origin_global <= mapped_global;
                         blink_mask <= 4'b1111;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= ORIGIN_STATION_BLINK;
                     end else if (key2_pressed) begin
@@ -321,21 +330,25 @@ module ticket_price_top #(
                     if (key1_pressed) begin
                         selected_line <= 3'd1;
                         blink_mask <= 4'b0001;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= DEST_LINE_BLINK;
                     end else if (key2_pressed) begin
                         selected_line <= 3'd2;
                         blink_mask <= 4'b0010;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= DEST_LINE_BLINK;
                     end else if (key3_pressed) begin
                         selected_line <= 3'd3;
                         blink_mask <= 4'b0100;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= DEST_LINE_BLINK;
                     end else if (key4_pressed) begin
                         selected_line <= 3'd4;
                         blink_mask <= 4'b1000;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= DEST_LINE_BLINK;
                     end
@@ -362,6 +375,7 @@ module ticket_price_top #(
                     end else if (key1_pressed && mapped_valid) begin
                         destination_global <= mapped_global;
                         blink_mask <= 4'b1111;
+                        blink_flash_count <= 4'd2;
                         blink_start <= 1'b1;
                         state <= DEST_STATION_BLINK;
                     end else if (key2_pressed) begin
@@ -417,6 +431,9 @@ module ticket_price_top #(
                         if (inserted_sum >= total_due) begin
                             change_amount <= inserted_sum - total_due;
                             ticket_pulse <= 1'b1;
+                            blink_mask <= 4'b1111;
+                            blink_flash_count <= ticket_count;
+                            blink_start <= 1'b1;
                             event_count <= 32'd0;
                             state <= VEND;
                         end
@@ -424,7 +441,7 @@ module ticket_price_top #(
                 end
 
                 VEND: begin
-                    if (event_count >= EVENT_HOLD_CYCLES - 1) begin
+                    if ((event_count >= VEND_HOLD_CYCLES - 1) && !blink_busy) begin
                         event_count <= 32'd0;
                         state <= MODE_SELECT;
                     end else begin
@@ -448,10 +465,10 @@ module ticket_price_top #(
 
     always @(*) begin
         logical_led = 4'b0000;
-        if (blink_busy)
-            logical_led = blink_leds;
-        else if (state == VEND)
-            logical_led = 4'b1111;
+        if (blink_busy && ((state == ORIGIN_STATION_BLINK) ||
+                           (state == DEST_STATION_BLINK) ||
+                           (state == VEND)))
+            logical_led = blink_active_mask;
         else if (state == REFUND)
             logical_led = 4'b1001;
     end
@@ -476,7 +493,14 @@ module ticket_price_top #(
             end
 
             ORIGIN_LINE_BLINK, DEST_LINE_BLINK: begin
-                display_digits[31:28] = {1'b0, selected_line};
+                display_digits[31:16] = 16'hffff;
+                case (selected_line)
+                    3'd1: if (blink_active_mask[0]) display_digits[31:28] = 4'd1;
+                    3'd2: if (blink_active_mask[1]) display_digits[27:24] = 4'd2;
+                    3'd3: if (blink_active_mask[2]) display_digits[23:20] = 4'd3;
+                    3'd4: if (blink_active_mask[3]) display_digits[19:16] = 4'd4;
+                    default: display_digits[31:16] = 16'hffff;
+                endcase
             end
 
             ORIGIN_STATION, ORIGIN_STATION_BLINK,
@@ -497,16 +521,11 @@ module ticket_price_top #(
             end
 
             PAY: begin
-                display_digits[31:28] = (fare_bcd[7:4] == 0) ? 4'hf : fare_bcd[7:4];
-                display_digits[27:24] = fare_bcd[3:0];
-                display_digits[23:12] = total_bcd;
+                display_digits[31:20] = total_bcd;
                 display_digits[11:0] = paid_bcd;
             end
 
             VEND: begin
-                display_digits[31:28] = (fare_bcd[7:4] == 0) ? 4'hf : fare_bcd[7:4];
-                display_digits[27:24] = fare_bcd[3:0];
-                display_digits[23:20] = count_bcd[3:0];
                 display_digits[11:0] = change_bcd;
             end
 

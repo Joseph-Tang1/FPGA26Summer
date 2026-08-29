@@ -3,12 +3,12 @@
   "line_station_counts": [
     32,
     30,
-    29,
+    31,
     18
   ],
-  "station_occurrences": 109,
-  "unique_station_count": 102,
-  "pair_count": 5151,
+  "station_occurrences": 111,
+  "unique_station_count": 104,
+  "pair_count": 5356,
   "distance_width_bits": 17,
   "maximum_distance_m": 53560,
   "maximum_fare_yuan": 9

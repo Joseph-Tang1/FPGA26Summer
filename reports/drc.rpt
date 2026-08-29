@@ -1,9 +1,9 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
-| Date         : Sat Aug 29 12:05:07 2026
+| Date         : Sat Aug 29 16:04:05 2026
 | Host         : LAPTOP-J02AFG1P running 64-bit major release  (build 9200)
-| Command      : report_drc -file C:/Users/Lenovo/Desktop/ticket_price/reports/drc.rpt
+| Command      : report_drc -file D:/FPGA26FALL/ticket_price/reports/drc.rpt
 | Design       : ticket_price_top
 | Device       : xc7a75tfgg484-2
 | Speed File   : -2
