@@ -98,7 +98,7 @@ module ticket_price_top #(
     // HX7A75C switches are electrically 1 when moved up and 0 when moved
     // down. Invert all four switches so the user-facing 0/1 convention is
     // reversed. The SW4 input keeps its legacy port name for XDC stability.
-    wire internal_rst_n = ~sw4_rst_n;
+    wire internal_rst_n = sw4_rst_n;
     wire sw1_logic = ~sw1;
     wire sw2_logic = ~sw2;
     wire sw3_logic = ~sw3;
