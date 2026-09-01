@@ -26,11 +26,11 @@ module ticket_price_top #(
     localparam [3:0] MODE_SELECT          = 4'd0;
     localparam [3:0] MANUAL_FARE          = 4'd1;
     localparam [3:0] ORIGIN_LINE          = 4'd2;
-    localparam [3:0] ORIGIN_LINE_BLINK    = 4'd3;
+    //localparam [3:0] ORIGIN_LINE_BLINK    = 4'd3;
     localparam [3:0] ORIGIN_STATION       = 4'd4;
     localparam [3:0] ORIGIN_STATION_BLINK = 4'd5;
     localparam [3:0] DEST_LINE            = 4'd6;
-    localparam [3:0] DEST_LINE_BLINK      = 4'd7;
+    //localparam [3:0] DEST_LINE_BLINK      = 4'd7;
     localparam [3:0] DEST_STATION         = 4'd8;
     localparam [3:0] DEST_STATION_BLINK   = 4'd9;
     localparam [3:0] CALC_WAIT            = 4'd10;
